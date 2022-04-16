@@ -6,7 +6,7 @@ from tkinter import ttk
 from tkinter import W, messagebox
 import datetime as date
 from tkinter.font import BOLD
-from sqlite_mod import *
+from sqlite3_module.sqlite_mod import *
 import re
 #------------------------------------------------------------------------------
 #---------------------------- Variables globales ------------------------------
