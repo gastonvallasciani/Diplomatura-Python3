@@ -6,4 +6,4 @@ La diplomatura se encuentra conformada por 3 cursos con una carga horaria de 180
 * Python Intermedio
 * Python Avanzado
 
-[Diplomatura en Python](URL "https://sceu.frba.utn.edu.ar/e-learning/detalle/diplomatura/1413/diplomatura-en-python")
+
