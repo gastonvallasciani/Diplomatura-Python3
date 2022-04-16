@@ -6,7 +6,16 @@ from tkinter import ttk
 from tkinter import W, messagebox
 import datetime as date
 from tkinter.font import BOLD
-from sqlite3_module.sqlite_mod import *
+
+from sqlite3_module.sqlite_mod import crear_base
+from sqlite3_module.sqlite_mod import crear_tabla
+from sqlite3_module.sqlite_mod import seleccionar_todos
+from sqlite3_module.sqlite_mod import actualizar
+from sqlite3_module.sqlite_mod import borrar
+from sqlite3_module.sqlite_mod import insertar
+from sqlite3_module.sqlite_mod import cantidad_registros
+from sqlite3_module.sqlite_mod import seleccionar
+
 import re
 #------------------------------------------------------------------------------
 #---------------------------- Variables globales ------------------------------
