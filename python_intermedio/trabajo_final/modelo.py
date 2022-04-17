@@ -1,7 +1,10 @@
+#------------------------------------------------------------------------------
 from sqlite3_module.sqlite_mod import seleccionar_todos
 from sqlite3_module.sqlite_mod import actualizar
 from sqlite3_module.sqlite_mod import borrar
 from sqlite3_module.sqlite_mod import insertar
+from sqlite3_module.sqlite_mod import cantidad_registros
+from sqlite3_module.sqlite_mod import seleccionar
 
 from tkinter import messagebox
 
@@ -225,4 +228,19 @@ def guardar_nuevo_socio(treeview, db_local, nombre_socio_local,
         str_aux_2=" El socio no ha sido cargado "
         str_aux_2 = str_aux_2 + "por un error en la carga de datos"
         messagebox.showwarning(message=str_aux_2)
+        
+#------------------------------------------------------------------------------
+def exportar_base_txt(db_local):
+    cantidad_de_registros_local = cantidad_registros(db_local)
+    archivo = open("base_de_datos_socios.txt","w")
+    for counter in range(1, cantidad_de_registros_local+1):
+        data_from_db = seleccionar(db_local, counter)
+        if data_from_db != ():
+            str = f"Numero de socio: {data_from_db[0]},"
+            str = str + f"nombre: {data_from_db[1]}, apellido: {data_from_db[2]},"
+            str = str + f"edad: {data_from_db[3]},"
+            str = str + f"vencimiento apto medico: {data_from_db[4]},"
+            str = str + f"estado apto medico: {data_from_db[5]}\n"
+            archivo.write(str)
+    archivo.close()
 #------------------------------------------------------------------------------

@@ -19,11 +19,10 @@ from modelo import modificar_socio_existente
 from modelo import borrar_socio
 from modelo import borrar_variables_control
 from modelo import guardar_nuevo_socio
+from modelo import exportar_base_txt
 
 from sqlite3_module.sqlite_mod import crear_base
 from sqlite3_module.sqlite_mod import crear_tabla
-from sqlite3_module.sqlite_mod import cantidad_registros
-from sqlite3_module.sqlite_mod import seleccionar
 #------------------------------------------------------------------------------
 #---------------------------- Variables globales ------------------------------
 #------------------------------------------------------------------------------
@@ -160,14 +159,19 @@ def abm_socios_alta_win():
 
     boton = Button(
         tl, text = "Dar de alta", bg='#0052cc', fg='#ffffff', 
-        command=lambda:[guardar_nuevo_socio(tree, db, nombre_socio.get(), apellido_socio.get(), edad_socio.get(), vencimiento_apto_medico.get()), borrar_variables_control(nombre_socio, apellido_socio, edad_socio, vencimiento_apto_medico),
+        command=lambda:[guardar_nuevo_socio(tree, db, nombre_socio.get(), 
+            apellido_socio.get(), edad_socio.get(), 
+            vencimiento_apto_medico.get()), 
+            borrar_variables_control(nombre_socio, apellido_socio, 
+            edad_socio, vencimiento_apto_medico),
         tl.destroy()]
         )
     boton.grid(padx=5, pady=5, column=0, row=5)
 
     boton = Button(
         tl, text = "Cerrar", bg='#0052cc', fg='#ffffff', 
-        command=lambda:[borrar_variables_control(nombre_socio, apellido_socio, edad_socio, vencimiento_apto_medico), tl.destroy()]
+        command=lambda:[borrar_variables_control(nombre_socio, apellido_socio, 
+            edad_socio, vencimiento_apto_medico), tl.destroy()]
         )
     boton.grid(padx=5, pady=5, column=1, row=5)
 #------------------------------------------------------------------------------
@@ -217,31 +221,21 @@ def abm_socios_modificar_win():
 
     boton = Button(
         tl, text = "Modificar", height=1, width=10, bg='#0052cc', 
-        fg='#ffffff', command=lambda:[modificar_socio_existente(tree, db, nombre_socio.get(), apellido_socio.get(), edad_socio.get(), vencimiento_apto_medico.get()), 
-        borrar_variables_control(nombre_socio, apellido_socio, edad_socio, vencimiento_apto_medico), tl.destroy()]
+        fg='#ffffff', command=lambda:[modificar_socio_existente(tree, db, 
+            nombre_socio.get(), apellido_socio.get(), edad_socio.get(), 
+            vencimiento_apto_medico.get()), 
+        borrar_variables_control(nombre_socio, apellido_socio, 
+            edad_socio, vencimiento_apto_medico), tl.destroy()]
         )
     boton.grid(padx=5, pady=5, column=0, row=5)
 
     boton = Button(
         tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
-        fg='#ffffff', command=lambda:[borrar_variables_control(nombre_socio, apellido_socio, edad_socio, vencimiento_apto_medico), 
+        fg='#ffffff', command=lambda:[borrar_variables_control(nombre_socio, 
+            apellido_socio, edad_socio, vencimiento_apto_medico), 
         tl.destroy()]
         )
     boton.grid(padx=5, pady=5, column=1, row=5)
-#------------------------------------------------------------------------------
-def exportar_base_txt():
-    cantidad_de_registros_local = cantidad_registros(db)
-    archivo = open("base_de_datos_socios.txt","w")
-    for counter in range(1, cantidad_de_registros_local+1):
-        data_from_db = seleccionar(db, counter)
-        if data_from_db != ():
-            str = f"Numero de socio: {data_from_db[0]},"
-            str = str + f"nombre: {data_from_db[1]}, apellido: {data_from_db[2]},"
-            str = str + f"edad: {data_from_db[3]},"
-            str = str + f"vencimiento apto medico: {data_from_db[4]},"
-            str = str + f"estado apto medico: {data_from_db[5]}\n"
-            archivo.write(str)
-    archivo.close()
 #------------------------------------------------------------------------------
 """
 Ventana hija para exportar la base de datos a un archivo txt
@@ -264,7 +258,7 @@ def base_de_datos_win():
 
     boton1 = Button(
         tl, text = "Exportar base", height=1, width=10, 
-        bg='#0052cc', fg='#ffffff', command=lambda:[exportar_base_txt(), 
+        bg='#0052cc', fg='#ffffff', command=lambda:[exportar_base_txt(db), 
         tl.destroy()]
         )
     boton1.place(x = 60, y = 50)

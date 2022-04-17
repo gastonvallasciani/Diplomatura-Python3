@@ -1,0 +1,4 @@
+Numero de socio: 1,nombre: fdsf, apellido: sf,edad: 12,vencimiento apto medico: ,estado apto medico: NO PRESENTADO
+Numero de socio: 2,nombre: fsdfsd, apellido: fdsf,edad: 12,vencimiento apto medico: ,estado apto medico: NO PRESENTADO
+Numero de socio: 4,nombre: fdsffdsf, apellido: fsdfdsf,edad: 33,vencimiento apto medico: 2022-03-03,estado apto medico: VENCIDO
+Numero de socio: 5,nombre: dsd, apellido: ds,edad: 22,vencimiento apto medico: ,estado apto medico: NO PRESENTADO
