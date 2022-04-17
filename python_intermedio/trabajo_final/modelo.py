@@ -1,0 +1,228 @@
+from sqlite3_module.sqlite_mod import seleccionar_todos
+from sqlite3_module.sqlite_mod import actualizar
+from sqlite3_module.sqlite_mod import borrar
+from sqlite3_module.sqlite_mod import insertar
+
+from tkinter import messagebox
+
+from pickle import FALSE, TRUE
+
+import datetime as date
+
+import re
+#------------------------------------------------------------------------------
+def borrar_variables_control(nombre_socio, apellido_socio, edad_socio, 
+        vencimiento_apto_medico):
+    nombre_socio.set("")
+    apellido_socio.set("")
+    edad_socio.set("")
+    vencimiento_apto_medico.set("")
+#------------------------------------------------------------------------------
+"""
+Borra los datos del treeview y los actualiza con la informacion de la 
+base de datos.
+"""
+def actualizar_treeview(mitreeview, db_local):
+    records = mitreeview.get_children()
+    for element in records:
+        mitreeview.delete(element)
+    
+    resultado = seleccionar_todos(db_local)
+
+    for fila in resultado:
+        print(fila)
+        mitreeview.insert(
+            "", " 0", text=fila[0], tag = 'fuente', 
+            values=(fila[1], fila[2], fila[3], fila[4], fila[5])
+            )
+#------------------------------------------------------------------------------
+"""
+Funcion que devuelve la fila seleccionada del treeview segun el numero 
+de socio.
+"""
+def item_seleccionado_treeview(mitreeview):
+    item = mitreeview.focus()
+    if item != "":
+        num_socio = mitreeview.item(item, option="text")
+        return num_socio
+#------------------------------------------------------------------------------
+"""
+Funcion utilizada para modificar un socio existente en la base 
+de datos y el treeview.
+"""
+def modificar_socio_existente(treeview, db_local, nombre_socio_local, 
+        apellido_socio_local, edad_socio_local, 
+        vencimiento_apto_medico_local = None):
+
+    estado_apto_medico_local = "NO PRESENTADO"
+    
+    guardar_cliente = FALSE
+    
+    num_socio_a_modificar = item_seleccionado_treeview(treeview)
+    if num_socio_a_modificar:
+        str_aux = vencimiento_apto_medico_local
+
+        patron = re.compile("[a-zA-Z áéíóú]")
+        patron_numeros = re.compile("[1-9][0-9]{0,1}")
+        patron_fecha = re.compile("^[\d]{4}-[\d]{2}-[\d]{2}$")
+
+        if patron.match(nombre_socio_local) == None:
+            guardar_cliente = FALSE
+            str_aux_2 = " No se ha cargado el nombre del socio de forma correcta"
+            messagebox.showwarning(message=str_aux_2)
+        elif patron.match(nombre_socio_local) == None:
+            guardar_cliente = FALSE
+            str_aux_2 = " No se ha cargado el apellido del socio de forma correcta"
+            messagebox.showwarning(message=str_aux_2)
+        elif patron_numeros.match(edad_socio_local) == None:
+            guardar_cliente = FALSE
+            str_aux_2 = " No se ha cargado la edad del socio de forma correcta"
+            messagebox.showwarning(message=str_aux_2)
+        elif len(str_aux) != 10 and len(str_aux) > 0:
+            guardar_cliente = FALSE
+            str_aux_2 = " El formato de la fecha del apto médico es incorrecto"
+            messagebox.showwarning(message=str_aux_2)    
+        elif len(str_aux) == 0:
+            # No se cargo la fecha de vencimiento del apto medico. Puedo 
+            # guardar el socio.
+            guardar_cliente = TRUE
+        else:
+            # Ejecuto el parseo de la fecha del apto medico ingresada. 
+            # Puedo guardar el socio.
+            if patron_fecha.match(str_aux) != None:
+                guardar_cliente = TRUE
+                list_local = str_aux.split("-")
+                # Formato de fecha: AAAA-MM-DD
+                date_apto_medico = date.datetime(
+                    int(list_local[0]), int(list_local[1]), 
+                    int(list_local[2])
+                    )
+                date_actual = date.datetime.now()
+                # Verifico si el certificado presentado esta vencido
+                if (date_apto_medico.year < date_actual.year or 
+                    date_apto_medico.year == date_actual.year and 
+                    date_apto_medico.month < date_actual.month or 
+                    date_apto_medico.year == date_actual.year and 
+                    date_apto_medico.month == date_actual.month and 
+                    date_apto_medico.day < date_actual.day):
+                    str_aux_2 = " El apto medico presentado esta vencido"
+                    messagebox.showwarning(message=str_aux_2)
+                    estado_apto_medico_local = "VENCIDO"
+                else:
+                    estado_apto_medico_local = "VIGENTE"
+            else:
+                guardar_cliente = FALSE
+                str_aux_2 = " El formato de fecha ingresado es incorrecto"
+                messagebox.showwarning(message=str_aux_2)
+    else:
+        str_aux_2 = "No se ha modificado el socio "
+        str_aux_2 = str_aux_2 + "ya que no ha seleccionado ninguno!"
+        messagebox.showwarning(message=str_aux_2)
+
+    if(guardar_cliente == TRUE):
+        actualizar(
+            db_local, num_socio_a_modificar, nombre_socio_local, 
+            apellido_socio_local, edad_socio_local, 
+            vencimiento_apto_medico_local, estado_apto_medico_local
+            )
+        actualizar_treeview(treeview, db_local)
+        messagebox.showinfo(message="El socio ha sido modificado exitosamente!")
+    else:
+        str_aux_2 = " El socio no ha sido modificado "
+        str_aux_2 = str_aux_2 + "por un error en la carga de datos"
+        messagebox.showwarning(message=str_aux_2)
+#------------------------------------------------------------------------------
+"""
+Funcion utilizada para borrar a un socio de la base de datos y del treeview.
+"""
+def borrar_socio(treeview, db_local):
+    num_socio_a_borrar = item_seleccionado_treeview(treeview)
+    if num_socio_a_borrar:
+        borrar(db_local, num_socio_a_borrar)
+        actualizar_treeview(treeview, db_local)
+    else:
+        str_aux = "No se ha borrado el socio ya que no ha seleccionado ninguno!"
+        messagebox.showwarning(message=str_aux)
+#------------------------------------------------------------------------------
+"""
+Funcion utilizada guardar el formulario de cada socio en base de datos y 
+actualizarlo en treeview.
+"""
+def guardar_nuevo_socio(treeview, db_local, nombre_socio_local, 
+        apellido_socio_local, edad_socio_local, 
+        vencimiento_apto_medico_local = None):
+    
+    guardar_cliente = FALSE
+
+    estado_apto_medico_local = "NO PRESENTADO"
+
+    str_aux = vencimiento_apto_medico_local
+
+    patron = re.compile("[a-zA-Z áéíóú]")
+    patron_numeros = re.compile("[1-9][0-9]{0,1}")
+    patron_fecha = re.compile("^[\d]{4}-[\d]{2}-[\d]{2}$")
+
+    if patron.match(nombre_socio_local) == None:
+        guardar_cliente = FALSE
+        str_aux_2 = " No se ha cargado el nombre del socio de forma correcta"
+        messagebox.showwarning(message=str_aux_2)
+    elif patron.match(nombre_socio_local) == None:
+        guardar_cliente = FALSE
+        str_aux_2 = " No se ha cargado el apellido del socio de forma correcta"
+        messagebox.showwarning(message=str_aux_2)
+    elif patron_numeros.match(edad_socio_local) == None:
+        guardar_cliente = FALSE
+        str_aux_2 = " No se ha cargado la edad del socio de forma correcta"
+        messagebox.showwarning(message=str_aux_2)
+    elif len(str_aux) != 10 and len(str_aux) > 0:
+        guardar_cliente = FALSE
+        str_aux_2 = " El formato de la fecha del apto médico es incorrecto"
+        messagebox.showwarning(message=str_aux_2)
+    elif len(str_aux) == 0:
+        # No se cargo la fecha de vencimiento del apto medico. 
+        # Puedo guardar el socio.
+        guardar_cliente = TRUE
+    else:
+        # Ejecuto el parseo de la fecha del apto medico ingresada. 
+        # Puedo guardar el socio.
+        if patron_fecha.match(str_aux) != None:
+            guardar_cliente = TRUE
+            list_local = str_aux.split("-")
+            # Formato de fecha: AAAA-MM-DD
+            date_apto_medico = date.datetime(
+                int(list_local[0]), int(list_local[1]), 
+                int(list_local[2])
+                )
+            date_actual = date.datetime.now()
+            # Verifico si el certificado presentado esta vencido
+            if (date_apto_medico.year < date_actual.year or 
+                date_apto_medico.year == date_actual.year and 
+                date_apto_medico.month < date_actual.month or 
+                date_apto_medico.year == date_actual.year and 
+                date_apto_medico.month == date_actual.month and 
+                date_apto_medico.day < date_actual.day):
+                str_aux_2 = " El apto medico presentado esta vencido"
+                messagebox.showwarning(message=str_aux_2)
+               # estado_apto_medico_local.set("VENCIDO")
+                estado_apto_medico_local = "VENCIDO"
+            else:
+               # estado_apto_medico_local.set("VIGENTE")
+               estado_apto_medico_local = "VIGENTE"
+        else:
+            guardar_cliente = FALSE
+            str_aux_2 = " El formato de fecha ingresado es incorrecto"
+            messagebox.showwarning(message=str_aux_2)
+
+    if(guardar_cliente == TRUE):
+        insertar(
+            db_local, nombre_socio_local, apellido_socio_local, 
+            edad_socio_local, vencimiento_apto_medico_local, 
+            estado_apto_medico_local
+            )
+        actualizar_treeview(treeview, db_local)
+        messagebox.showinfo(message="El socio ha sido guardado exitosamente!")
+    else:
+        str_aux_2=" El socio no ha sido cargado "
+        str_aux_2 = str_aux_2 + "por un error en la carga de datos"
+        messagebox.showwarning(message=str_aux_2)
+#------------------------------------------------------------------------------
