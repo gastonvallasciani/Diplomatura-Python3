@@ -5,6 +5,8 @@ from sqlite3_module.sqlite_mod import borrar
 from sqlite3_module.sqlite_mod import insertar
 from sqlite3_module.sqlite_mod import cantidad_registros
 from sqlite3_module.sqlite_mod import seleccionar
+from sqlite3_module.sqlite_mod import crear_base
+from sqlite3_module.sqlite_mod import crear_tabla
 
 from tkinter import messagebox
 
@@ -20,6 +22,15 @@ def borrar_variables_control(nombre_socio, apellido_socio, edad_socio,
     apellido_socio.set("")
     edad_socio.set("")
     vencimiento_apto_medico.set("")
+#------------------------------------------------------------------------------
+try:
+    # Creo la base de datos
+    db = crear_base()
+    # Creo la tabla en la base de datos para alamacenar informacion de socios si
+    # no hay ninguna base creada con el mismo nombre
+    crear_tabla(db)
+except:
+    print("Hay un error")
 #------------------------------------------------------------------------------
 """
 Borra los datos del treeview y los actualiza con la informacion de la 
