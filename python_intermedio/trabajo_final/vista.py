@@ -23,304 +23,306 @@ from modelo import db
 app_version = "1.0.0"
 inicio = FALSE
 #-----------------------------------------------------------------------------
-def vista_principal(root):
-    global  app_version 
-    global inicio
+class Panel():
+    def __init__(self, window):
+        self.root = window
+        #-----------------------------------------------------------------------------
+        global  app_version 
+        global inicio
 
-    root.title("GYM MANAGER")
-    root.geometry("690x285")
-    root['bg'] = '#49A'
-#------------------------------------------------------------------------------
-# Declaro variables de tkinter
-    edad_socio = StringVar() 
-    nombre_socio = StringVar()
-    apellido_socio = StringVar()
-    vencimiento_apto_medico = StringVar()
-    estado_apto_medico = StringVar()
+        self.root.title("GYM MANAGER")
+        self.root.geometry("690x285")
+        self.root['bg'] = '#49A'
     #------------------------------------------------------------------------------
-    """
-    Ventana hija para dar de baja un socio
-    """
-    def abm_socios_baja_win():
-        tl = Toplevel(root, bg="white")
-        tl.title("Baja socio")
-        tl.geometry('320x100')
-        tl['bg'] = '#49A'
-        tl.focus_set()
-        tl.grab_set()
-        tl.transient(master=root)
-
-        l1=Label(
-            tl, text="¿Desea dar de baja al socio seleccionado? ", 
-            anchor= W, bg="#49A", fg='#ffffff', font=("Arial", 10)
-            )
-        l1.place(x = 27, y = 20)
-
-        boton1 = Button(
-            tl, text = "Dar de baja", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[borrar_socio(tree, db), 
-            borrar_variables_control(nombre_socio, apellido_socio, edad_socio, 
-                vencimiento_apto_medico), tl.destroy()]
-            )
-        boton1.place(x = 60, y = 60)
-
-        boton2 = Button(
-            tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', 
-            command=lambda:[borrar_variables_control(nombre_socio, apellido_socio, 
-                edad_socio, vencimiento_apto_medico), tl.destroy()]
-            )
-        boton2.place(x = 180, y = 60)
+    # Declaro variables de tkinter
+        self.edad_socio = StringVar() 
+        self.nombre_socio = StringVar()
+        self.apellido_socio = StringVar()
+        self.vencimiento_apto_medico = StringVar()
     #------------------------------------------------------------------------------
-    """
-    Ventana hija para dar de alta al nuevo socio
-    """
-    def abm_socios_alta_win():
-        tl = Toplevel(root, bg="white")
-        tl.title("Alta socio")
-        tl.geometry('310x170')
-        tl['bg'] = '#49A'
-        tl.focus_set()
-        tl.grab_set()
-        tl.transient(master=root)
+        """
+        Ventana hija para dar de baja un socio
+        """
+        def abm_socios_baja_win():
+            self.tl = Toplevel(self.root, bg="white")
+            self.tl.title("Baja socio")
+            self.tl.geometry('320x100')
+            self.tl['bg'] = '#49A'
+            self.tl.focus_set()
+            self.tl.grab_set()
+            self.tl.transient(master=self.root)
 
-        l2=Label(
-            tl, text="Nombre del socio: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
+            self.l1=Label(
+                self.tl, text="¿Desea dar de baja al socio seleccionado? ", 
+                anchor= W, bg="#49A", fg='#ffffff', font=("Arial", 10)
+                )
+            self.l1.place(x = 27, y = 20)
+
+            self.boton1 = Button(
+                self.tl, text = "Dar de baja", height=1, width=10, bg='#0052cc', 
+                fg='#ffffff', command=lambda:[borrar_socio(self.tree, db), 
+                borrar_variables_control(self.nombre_socio, self.apellido_socio, self.edad_socio, 
+                    self.vencimiento_apto_medico), self.tl.destroy()]
+                )
+            self.boton1.place(x = 60, y = 60)
+
+            self.boton2 = Button(
+                self.tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
+                fg='#ffffff', 
+                command=lambda:[borrar_variables_control(self.nombre_socio, self.apellido_socio, 
+                    self.edad_socio, self.vencimiento_apto_medico), self.tl.destroy()]
+                )
+            self.boton2.place(x = 180, y = 60)
+        #------------------------------------------------------------------------------
+        """
+        Ventana hija para dar de alta al nuevo socio
+        """
+        def abm_socios_alta_win():
+            self.tl = Toplevel(self.root, bg="white")
+            self.tl.title("Alta socio")
+            self.tl.geometry('310x170')
+            self.tl['bg'] = '#49A'
+            self.tl.focus_set()
+            self.tl.grab_set()
+            self.tl.transient(master=self.root)
+
+            self.l2=Label(
+                self.tl, text="Nombre del socio: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l2.grid(padx=5, pady=5, column=0, row=1, sticky=W)
+            self.e2=Entry(self.tl, textvariable=self.nombre_socio)
+            self.e2.grid(padx=5, pady=5, column=1, row=1, sticky=W)
+
+            self.l3=Label(
+                self.tl, text="Apellido del socio: ", anchor= W, 
+                bg="#49A", fg='#ffffff', font=("Arial", 10)
+                )
+            self.l3.grid(padx=5, pady=5, column=0, row=2, sticky=W)
+            self.e3=Entry(self.tl, textvariable=self.apellido_socio)
+            self.e3.grid(padx=5, pady=5, column=1, row=2, sticky=W)
+
+            self.l1=Label(
+                self.tl, text="Edad del socio: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l1.grid(padx=5, pady=5, column=0, row=3, sticky=W)
+            self.e1=Entry(self.tl, textvariable=self.edad_socio)
+            self.e1.grid(padx=5, pady=5, column=1, row=3, sticky=W)
+
+            self.l4=Label(
+                self.tl, text="Vencimiento apto médico: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l4.grid(padx=5, pady=5, column=0, row=4, sticky=W)
+            self.e4=Entry(self.tl, textvariable=self.vencimiento_apto_medico)
+            self.e4.grid(padx=5, pady=5, column=1, row=4, sticky=W)
+
+            self.boton = Button(
+                self.tl, text = "Dar de alta", bg='#0052cc', fg='#ffffff', 
+                command=lambda:[guardar_nuevo_socio(self.tree, db, self.nombre_socio.get(), 
+                    self.apellido_socio.get(), self.edad_socio.get(), 
+                    self.vencimiento_apto_medico.get()), 
+                    borrar_variables_control(self.nombre_socio, self.apellido_socio, 
+                    self.edad_socio, self.vencimiento_apto_medico),
+                self.tl.destroy()]
+                )
+            self.boton.grid(padx=5, pady=5, column=0, row=5)
+
+            self.boton = Button(
+                self.tl, text = "Cerrar", bg='#0052cc', fg='#ffffff', 
+                command=lambda:[borrar_variables_control(self.nombre_socio, self.apellido_socio, 
+                    self.edad_socio, self.vencimiento_apto_medico), self.tl.destroy()]
+                )
+            self.boton.grid(padx=5, pady=5, column=1, row=5)
+        #------------------------------------------------------------------------------
+        """
+        Ventana hija para modificar un socio existente
+        """
+        def abm_socios_modificar_win():
+            self.tl = Toplevel(self.root, bg="white")
+            self.tl.title("Modificar socio")
+            self.tl.geometry('310x170')
+            self.tl['bg'] = '#49A'
+            self.tl.focus_set()
+            self.tl.grab_set()
+            self.tl.transient(master=self.root)
+
+            self.l2=Label(
+                self.tl, text="Nombre del socio: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l2.grid(padx=5, pady=5, column=0, row=1, sticky=W)
+            self.e2=Entry(self.tl, textvariable=self.nombre_socio)
+            self.e2.grid(padx=5, pady=5, column=1, row=1, sticky=W)
+
+            self.l3=Label(
+                self.tl, text="Apellido del socio: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l3.grid(padx=5, pady=5, column=0, row=2, sticky=W)
+            self.e3=Entry(self.tl, textvariable=self.apellido_socio)
+            self.e3.grid(padx=5, pady=5, column=1, row=2, sticky=W)
+
+            self.l1=Label(
+                self.tl, text="Edad del socio: ", anchor= W, bg="#49A", fg='#ffffff', 
+                font=("Arial", 10)
+                )
+            self.l1.grid(padx=5, pady=5, column=0, row=3, sticky=W)
+            self.e1=Entry(self.tl, textvariable=self.edad_socio)
+            self.e1.grid(padx=5, pady=5, column=1, row=3, sticky=W)
+
+            self.l4=Label(
+                self.tl, text="Vencimiento apto médico: ", anchor= W, bg="#49A", 
+                fg='#ffffff', font=("Arial", 10)
+                )
+            self.l4.grid(padx=5, pady=5, column=0, row=4, sticky=W)
+            self.e4=Entry(self.tl, textvariable=self.vencimiento_apto_medico)
+            self.e4.grid(padx=5, pady=5, column=1, row=4, sticky=W)
+
+            self.boton = Button(
+                self.tl, text = "Modificar", height=1, width=10, bg='#0052cc', 
+                fg='#ffffff', command=lambda:[modificar_socio_existente(self.tree, db, 
+                    self.nombre_socio.get(), self.apellido_socio.get(), self.edad_socio.get(), 
+                    self.vencimiento_apto_medico.get()), 
+                borrar_variables_control(self.nombre_socio, self.apellido_socio, 
+                    self.edad_socio, self.vencimiento_apto_medico), self.tl.destroy()]
+                )
+            self.boton.grid(padx=5, pady=5, column=0, row=5)
+
+            self.boton = Button(
+                self.tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
+                fg='#ffffff', command=lambda:[borrar_variables_control(self.nombre_socio, 
+                    self.apellido_socio, self.edad_socio, self.vencimiento_apto_medico), 
+                self.tl.destroy()]
+                )
+            boton.grid(padx=5, pady=5, column=1, row=5)
+        #------------------------------------------------------------------------------
+        """
+        Ventana hija para exportar la base de datos a un archivo txt
+        """
+        def base_de_datos_win():
+            self.tl = Toplevel(self.root)
+            self.tl.title("Exportar base de datos a txt")
+            self.tl.geometry('320x100')
+            self.tl['bg'] = '#49A'
+            self.tl.focus_set()
+            self.tl.grab_set()
+            self.tl.transient(master=self.root)
+
+            self.l1=Label(
+                self.tl, text="¿Desea exportar la base de datos a un archivo txt? ", 
+                anchor= W, bg="#49A", fg='#ffffff', font=("Arial", 10)
+                )
+            self.l1.place(x = 10, y = 15)
+
+            self.boton1 = Button(
+                self.tl, text = "Exportar base", height=1, width=10, 
+                bg='#0052cc', fg='#ffffff', command=lambda:[exportar_base_txt(db), 
+                self.tl.destroy()]
+                )
+            self.boton1.place(x = 60, y = 50)
+
+            self.boton2 = Button(
+                self.tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
+                fg='#ffffff', command=lambda:[self.tl.destroy()]
+                )
+            self.boton2.place(x = 180, y = 50)
+        #------------------------------------------------------------------------------
+        self.menubar=Menu(self.root)
+
+        self.menu_db = Menu(self.menubar, tearoff=0)
+        self.menu_db.add_command(
+            label = "Exportar base de datos", command = base_de_datos_win
             )
-        l2.grid(padx=5, pady=5, column=0, row=1, sticky=W)
-        e2=Entry(tl, textvariable=nombre_socio)
-        e2.grid(padx=5, pady=5, column=1, row=1, sticky=W)
+        self.menubar.add_cascade(label = "Base de datos", menu = self.menu_db)
 
-        l3=Label(
-            tl, text="Apellido del socio: ", anchor= W, 
-            bg="#49A", fg='#ffffff', font=("Arial", 10)
+        self.menu_abm_socios = Menu(self.menubar, tearoff=0)
+        self.menu_abm_socios.add_command(
+            label = "Nuevo socio", command = abm_socios_alta_win
             )
-        l3.grid(padx=5, pady=5, column=0, row=2, sticky=W)
-        e3=Entry(tl, textvariable=apellido_socio)
-        e3.grid(padx=5, pady=5, column=1, row=2, sticky=W)
-
-        l1=Label(
-            tl, text="Edad del socio: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
+        self.menu_abm_socios.add_command(
+            label = "Baja de socio", command = abm_socios_baja_win
             )
-        l1.grid(padx=5, pady=5, column=0, row=3, sticky=W)
-        e1=Entry(tl, textvariable=edad_socio)
-        e1.grid(padx=5, pady=5, column=1, row=3, sticky=W)
+        self.menu_abm_socios.add_command(label = "Modificación información de socio", 
+            command = abm_socios_modificar_win)
+        self.menubar.add_cascade(label = "Socios", menu = self.menu_abm_socios)
 
-        l4=Label(
-            tl, text="Vencimiento apto médico: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
+        self.menu_ayuda = Menu(self.menubar, tearoff=0)
+        self.menu_ayuda.add_command(label = "Acerca de...", command = lambda:[help_acercade_win()])
+        self.menubar.add_cascade(label = "Ayuda", menu = self.menu_ayuda)
+
+        self.root.config(menu = self.menubar)
+
+        self.tree = ttk.Treeview(self.root)
+        #Crea un estilo para ajustar la fuente de los encabezados de columna
+        self.estilo = ttk.Style()
+        self.estilo.configure("Treeview.Heading", font=("Arial", 10, BOLD))
+
+        #Establece una ID a cada columna
+        self.tree["columns"] = ("col1", "col2", "col3", "col4", "col5")
+        #Estilo para ajustar la fuente al Treeview
+        self.tree.tag_configure('fuente', font=("Arial", 10))
+        #Crea las Columnas del Treeview
+        self.tree.column("#0", width=50, minwidth=50, anchor=W)
+        self.tree.column("col1", width=80, minwidth=50, anchor=W)
+        self.tree.column("col2", width=100, minwidth=50, anchor=W)
+        self.tree.column("col3", width=80, minwidth=50, anchor=W)
+        self.tree.column("col4", width=180, minwidth=50, anchor=W)
+        self.tree.column("col5", width=180, minwidth=50, anchor=W)
+
+        #Encabezados de Columnas del Treeview
+        self.tree.heading("#0", text="Socio")
+        self.tree.heading("col1", text="Nombre")
+        self.tree.heading("col2", text="Apellido")
+        self.tree.heading("col3", text="Edad")
+        self.tree.heading("col4", text="Vencimiento apto médico")
+        self.tree.heading("col5", text="Estado apto médico")
+
+        self.tree.place(x = 10, y = 10)
+
+        boton = Button(self.root, text = "Salir", height=1, width=10, bg='#0052cc', 
+            fg='#ffffff', command=lambda:[salirAplicacion()]
             )
-        l4.grid(padx=5, pady=5, column=0, row=4, sticky=W)
-        e4=Entry(tl, textvariable=vencimiento_apto_medico)
-        e4.grid(padx=5, pady=5, column=1, row=4, sticky=W)
+        boton.place(x = 600, y = 245)
 
-        boton = Button(
-            tl, text = "Dar de alta", bg='#0052cc', fg='#ffffff', 
-            command=lambda:[guardar_nuevo_socio(tree, db, nombre_socio.get(), 
-                apellido_socio.get(), edad_socio.get(), 
-                vencimiento_apto_medico.get()), 
-                borrar_variables_control(nombre_socio, apellido_socio, 
-                edad_socio, vencimiento_apto_medico),
-            tl.destroy()]
-            )
-        boton.grid(padx=5, pady=5, column=0, row=5)
+        # Inicializo el treeview con los datos de la base de datos 
+        # Entra al loop una unica vez
+        if inicio == FALSE:
+            inicio = TRUE
+            actualizar_treeview(self.tree, db)
 
-        boton = Button(
-            tl, text = "Cerrar", bg='#0052cc', fg='#ffffff', 
-            command=lambda:[borrar_variables_control(nombre_socio, apellido_socio, 
-                edad_socio, vencimiento_apto_medico), tl.destroy()]
-            )
-        boton.grid(padx=5, pady=5, column=1, row=5)
-    #------------------------------------------------------------------------------
-    """
-    Ventana hija para modificar un socio existente
-    """
-    def abm_socios_modificar_win():
-        tl = Toplevel(root, bg="white")
-        tl.title("Modificar socio")
-        tl.geometry('310x170')
-        tl['bg'] = '#49A'
-        tl.focus_set()
-        tl.grab_set()
-        tl.transient(master=root)
+        #----------------------------------------------------------------------------
+        """
+        Ventana hija para preguntar la version de software
+        """
+        def help_acercade_win():
+            global app_version
 
-        l2=Label(
-            tl, text="Nombre del socio: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
-            )
-        l2.grid(padx=5, pady=5, column=0, row=1, sticky=W)
-        e2=Entry(tl, textvariable=nombre_socio)
-        e2.grid(padx=5, pady=5, column=1, row=1, sticky=W)
+            self.tl =Toplevel(self.root)
+            self.tl['bg'] = '#49A'
+            self.tl.title("Acerca de...")
+            self.tl.geometry('195x150')
+            self.tl.focus_set()
+            self.tl.grab_set()
+            self.tl.transient(master=self.root)
+            
+            str1 = "Python 3 - Nivel Inicial\n\n Autor: Gaston Vallasciani"
+            str2 = f"\n\n Versión de software: {app_version}" 
+            str = str1 + str2
+            self.label1 = Label(
+                self.tl, text = str, anchor= W, bg="#49A", fg='#ffffff', 
+                font=("Arial", 10)
+                )
+            self.label1.place(x = 15, y = 15)
 
-        l3=Label(
-            tl, text="Apellido del socio: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
-            )
-        l3.grid(padx=5, pady=5, column=0, row=2, sticky=W)
-        e3=Entry(tl, textvariable=apellido_socio)
-        e3.grid(padx=5, pady=5, column=1, row=2, sticky=W)
-
-        l1=Label(
-            tl, text="Edad del socio: ", anchor= W, bg="#49A", fg='#ffffff', 
-            font=("Arial", 10)
-            )
-        l1.grid(padx=5, pady=5, column=0, row=3, sticky=W)
-        e1=Entry(tl, textvariable=edad_socio)
-        e1.grid(padx=5, pady=5, column=1, row=3, sticky=W)
-
-        l4=Label(
-            tl, text="Vencimiento apto médico: ", anchor= W, bg="#49A", 
-            fg='#ffffff', font=("Arial", 10)
-            )
-        l4.grid(padx=5, pady=5, column=0, row=4, sticky=W)
-        e4=Entry(tl, textvariable=vencimiento_apto_medico)
-        e4.grid(padx=5, pady=5, column=1, row=4, sticky=W)
-
-        boton = Button(
-            tl, text = "Modificar", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[modificar_socio_existente(tree, db, 
-                nombre_socio.get(), apellido_socio.get(), edad_socio.get(), 
-                vencimiento_apto_medico.get()), 
-            borrar_variables_control(nombre_socio, apellido_socio, 
-                edad_socio, vencimiento_apto_medico), tl.destroy()]
-            )
-        boton.grid(padx=5, pady=5, column=0, row=5)
-
-        boton = Button(
-            tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[borrar_variables_control(nombre_socio, 
-                apellido_socio, edad_socio, vencimiento_apto_medico), 
-            tl.destroy()]
-            )
-        boton.grid(padx=5, pady=5, column=1, row=5)
-    #------------------------------------------------------------------------------
-    """
-    Ventana hija para exportar la base de datos a un archivo txt
-    """
-    def base_de_datos_win():
-        tl = Toplevel(root)
-        tl.title("Exportar base de datos a txt")
-        tl.geometry('320x100')
-        tl['bg'] = '#49A'
-        tl.focus_set()
-        tl.grab_set()
-        tl.transient(master=root)
-
-        l1=Label(
-            tl, text="¿Desea exportar la base de datos a un archivo txt? ", 
-            anchor= W, bg="#49A", fg='#ffffff', font=("Arial", 10)
-            )
-        l1.place(x = 10, y = 15)
-
-        boton1 = Button(
-            tl, text = "Exportar base", height=1, width=10, 
-            bg='#0052cc', fg='#ffffff', command=lambda:[exportar_base_txt(db), 
-            tl.destroy()]
-            )
-        boton1.place(x = 60, y = 50)
-
-        boton2 = Button(
-            tl, text = "Cerrar", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[tl.destroy()]
-            )
-        boton2.place(x = 180, y = 50)
-    #------------------------------------------------------------------------------
-    menubar=Menu(root)
-
-    menu_db = Menu(menubar, tearoff=0)
-    menu_db.add_command(
-        label = "Exportar base de datos", command = base_de_datos_win
-        )
-    menubar.add_cascade(label = "Base de datos", menu = menu_db)
-
-    menu_abm_socios = Menu(menubar, tearoff=0)
-    menu_abm_socios.add_command(
-        label = "Nuevo socio", command = abm_socios_alta_win
-        )
-    menu_abm_socios.add_command(
-        label = "Baja de socio", command = abm_socios_baja_win
-        )
-    menu_abm_socios.add_command(label = "Modificación información de socio", 
-        command = abm_socios_modificar_win)
-    menubar.add_cascade(label = "Socios", menu = menu_abm_socios)
-
-    menu_ayuda = Menu(menubar, tearoff=0)
-    menu_ayuda.add_command(label = "Acerca de...", command = lambda:[help_acercade_win(root)])
-    menubar.add_cascade(label = "Ayuda", menu = menu_ayuda)
-
-    root.config(menu = menubar)
-
-    tree = ttk.Treeview(root)
-    #Crea un estilo para ajustar la fuente de los encabezados de columna
-    estilo = ttk.Style()
-    estilo.configure("Treeview.Heading", font=("Arial", 10, BOLD))
-
-    #Establece una ID a cada columna
-    tree["columns"] = ("col1", "col2", "col3", "col4", "col5")
-    #Estilo para ajustar la fuente al Treeview
-    tree.tag_configure('fuente', font=("Arial", 10))
-    #Crea las Columnas del Treeview
-    tree.column("#0", width=50, minwidth=50, anchor=W)
-    tree.column("col1", width=80, minwidth=50, anchor=W)
-    tree.column("col2", width=100, minwidth=50, anchor=W)
-    tree.column("col3", width=80, minwidth=50, anchor=W)
-    tree.column("col4", width=180, minwidth=50, anchor=W)
-    tree.column("col5", width=180, minwidth=50, anchor=W)
-
-    #Encabezados de Columnas del Treeview
-    tree.heading("#0", text="Socio")
-    tree.heading("col1", text="Nombre")
-    tree.heading("col2", text="Apellido")
-    tree.heading("col3", text="Edad")
-    tree.heading("col4", text="Vencimiento apto médico")
-    tree.heading("col5", text="Estado apto médico")
-
-    tree.place(x = 10, y = 10)
-
-    boton = Button(root, text = "Salir", height=1, width=10, bg='#0052cc', 
-        fg='#ffffff', command=lambda:[salirAplicacion(root)]
-        )
-    boton.place(x = 600, y = 245)
-
-    # Inicializo el treeview con los datos de la base de datos 
-    # Entra al loop una unica vez
-    if inicio == FALSE:
-        inicio = TRUE
-        actualizar_treeview(tree, db)
-
-#----------------------------------------------------------------------------
-"""
-Ventana hija para preguntar la version de software
-"""
-def help_acercade_win(root):
-    global app_version
-
-    tl =Toplevel(root)
-    tl['bg'] = '#49A'
-    tl.title("Acerca de...")
-    tl.geometry('195x150')
-    tl.focus_set()
-    tl.grab_set()
-    tl.transient(master=root)
-    
-    str1 = "Python 3 - Nivel Inicial\n\n Autor: Gaston Vallasciani"
-    str2 = f"\n\n Versión de software: {app_version}" 
-    str = str1 + str2
-    label1 = Label(
-        tl, text = str, anchor= W, bg="#49A", fg='#ffffff', 
-        font=("Arial", 10)
-        )
-    label1.place(x = 15, y = 15)
-
-    boton = Button(
-        tl, text = "Cerrar" ,bg='#0052cc', fg='#ffffff',
-        command=tl.destroy
-        )
-    boton.place(x = 75, y = 110)
- #------------------------------------------------------------------------------
-def salirAplicacion(root):
-    valor=messagebox.askquestion("Salir","¿Deseas salir de la aplicación?")
-    if valor=="yes":
-        root.destroy()
+            self.boton = Button(
+                self.tl, text = "Cerrar" ,bg='#0052cc', fg='#ffffff',
+                command=self.tl.destroy
+                )
+            self.boton.place(x = 75, y = 110)
+        #------------------------------------------------------------------------------
+        def salirAplicacion():
+            valor=messagebox.askquestion("Salir","¿Deseas salir de la aplicación?")
+            if valor=="yes":
+                self.root.destroy()
