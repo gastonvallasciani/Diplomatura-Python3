@@ -1,12 +1,5 @@
 #------------------------------------------------------------------------------
-from sqlite3_module.sqlite_mod import seleccionar_todos
-from sqlite3_module.sqlite_mod import actualizar
-from sqlite3_module.sqlite_mod import borrar
-from sqlite3_module.sqlite_mod import insertar
-from sqlite3_module.sqlite_mod import cantidad_registros
-from sqlite3_module.sqlite_mod import seleccionar
-from sqlite3_module.sqlite_mod import crear_base
-from sqlite3_module.sqlite_mod import crear_tabla
+from sqlite3_module.sqlite_mod import DatabaseManager
 
 from tkinter import messagebox
 
@@ -15,6 +8,8 @@ from pickle import FALSE, TRUE
 import datetime as date
 
 import re
+#------------------------------------------------------------------------------
+objeto_db = DatabaseManager()
 #------------------------------------------------------------------------------
 def borrar_variables_control(nombre_socio, apellido_socio, edad_socio, 
         vencimiento_apto_medico):
@@ -25,10 +20,10 @@ def borrar_variables_control(nombre_socio, apellido_socio, edad_socio,
 #------------------------------------------------------------------------------
 try:
     # Creo la base de datos
-    db = crear_base()
+    db = objeto_db.crear_base()
     # Creo la tabla en la base de datos para alamacenar informacion de socios si
     # no hay ninguna base creada con el mismo nombre
-    crear_tabla(db)
+    objeto_db.crear_tabla(db)
 except:
     print("Hay un error")
 #------------------------------------------------------------------------------
@@ -41,7 +36,7 @@ def actualizar_treeview(mitreeview, db_local):
     for element in records:
         mitreeview.delete(element)
     
-    resultado = seleccionar_todos(db_local)
+    resultado = objeto_db.seleccionar_todos(db_local)
 
     for fila in resultado:
         print(fila)
@@ -134,7 +129,7 @@ def modificar_socio_existente(treeview, db_local, nombre_socio_local,
         messagebox.showwarning(message=str_aux_2)
 
     if(guardar_cliente == TRUE):
-        actualizar(
+        objeto_db.actualizar(
             db_local, num_socio_a_modificar, nombre_socio_local, 
             apellido_socio_local, edad_socio_local, 
             vencimiento_apto_medico_local, estado_apto_medico_local
@@ -152,7 +147,7 @@ Funcion utilizada para borrar a un socio de la base de datos y del treeview.
 def borrar_socio(treeview, db_local):
     num_socio_a_borrar = item_seleccionado_treeview(treeview)
     if num_socio_a_borrar:
-        borrar(db_local, num_socio_a_borrar)
+        objeto_db.borrar(db_local, num_socio_a_borrar)
         actualizar_treeview(treeview, db_local)
     else:
         str_aux = "No se ha borrado el socio ya que no ha seleccionado ninguno!"
@@ -228,7 +223,7 @@ def guardar_nuevo_socio(treeview, db_local, nombre_socio_local,
             messagebox.showwarning(message=str_aux_2)
 
     if(guardar_cliente == TRUE):
-        insertar(
+        objeto_db.insertar(
             db_local, nombre_socio_local, apellido_socio_local, 
             edad_socio_local, vencimiento_apto_medico_local, 
             estado_apto_medico_local
@@ -242,10 +237,10 @@ def guardar_nuevo_socio(treeview, db_local, nombre_socio_local,
         
 #------------------------------------------------------------------------------
 def exportar_base_txt(db_local):
-    cantidad_de_registros_local = cantidad_registros(db_local)
+    cantidad_de_registros_local = objeto_db.cantidad_registros(db_local)
     archivo = open("base_de_datos_socios.txt","w")
     for counter in range(1, cantidad_de_registros_local+1):
-        data_from_db = seleccionar(db_local, counter)
+        data_from_db = objeto_db.seleccionar(db_local, counter)
         if data_from_db != ():
             str = f"Numero de socio: {data_from_db[0]},"
             str = str + f"nombre: {data_from_db[1]}, apellido: {data_from_db[2]},"
