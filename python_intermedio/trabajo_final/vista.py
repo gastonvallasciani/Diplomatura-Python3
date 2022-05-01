@@ -11,14 +11,9 @@ from tkinter import ttk
 from tkinter import W, messagebox
 from tkinter.font import BOLD
 
-from modelo import actualizar_treeview
-
-from modelo import modificar_socio_existente
-from modelo import borrar_socio
 from modelo import borrar_variables_control
-from modelo import guardar_nuevo_socio
-from modelo import exportar_base_txt
-from modelo import db
+
+from modelo import Abmc
 #------------------------------------------------------------------------------
 app_version = "1.0.0"
 inicio = FALSE
@@ -26,6 +21,13 @@ inicio = FALSE
 class Panel():
     def __init__(self, window):
         self.root = window
+        self.abmc = Abmc()
+
+        try:
+            self.db = self.abmc.objeto_db.crear_base()
+            self.abmc.objeto_db.crear_tabla(self.db)
+        except:
+            print("error")
         #-----------------------------------------------------------------------------
         global  app_version 
         global inicio
@@ -60,7 +62,7 @@ class Panel():
 
             self.boton1 = Button(
                 self.tl, text = "Dar de baja", height=1, width=10, bg='#0052cc', 
-                fg='#ffffff', command=lambda:[borrar_socio(self.tree, db), 
+                fg='#ffffff', command=lambda:[self.abmc.borrar_socio(self.tree, self.db), 
                 borrar_variables_control(self.nombre_socio, self.apellido_socio, self.edad_socio, 
                     self.vencimiento_apto_medico), self.tl.destroy()]
                 )
@@ -120,7 +122,7 @@ class Panel():
 
             self.boton = Button(
                 self.tl, text = "Dar de alta", bg='#0052cc', fg='#ffffff', 
-                command=lambda:[guardar_nuevo_socio(self.tree, db, self.nombre_socio.get(), 
+                command=lambda:[self.abmc.guardar_nuevo_socio(self.tree, self.db, self.nombre_socio.get(), 
                     self.apellido_socio.get(), self.edad_socio.get(), 
                     self.vencimiento_apto_medico.get()), 
                     borrar_variables_control(self.nombre_socio, self.apellido_socio, 
@@ -182,7 +184,7 @@ class Panel():
 
             self.boton = Button(
                 self.tl, text = "Modificar", height=1, width=10, bg='#0052cc', 
-                fg='#ffffff', command=lambda:[modificar_socio_existente(self.tree, db, 
+                fg='#ffffff', command=lambda:[self.abmc.modificar_socio_existente(self.tree, self.db, 
                     self.nombre_socio.get(), self.apellido_socio.get(), self.edad_socio.get(), 
                     self.vencimiento_apto_medico.get()), 
                 borrar_variables_control(self.nombre_socio, self.apellido_socio, 
@@ -218,7 +220,7 @@ class Panel():
 
             self.boton1 = Button(
                 self.tl, text = "Exportar base", height=1, width=10, 
-                bg='#0052cc', fg='#ffffff', command=lambda:[exportar_base_txt(db), 
+                bg='#0052cc', fg='#ffffff', command=lambda:[self.abmc.exportar_base_txt(self.db), 
                 self.tl.destroy()]
                 )
             self.boton1.place(x = 60, y = 50)
@@ -290,7 +292,7 @@ class Panel():
         # Entra al loop una unica vez
         if inicio == FALSE:
             inicio = TRUE
-            actualizar_treeview(self.tree, db)
+            self.abmc.actualizar_treeview(self.tree, self.db)
 
         #----------------------------------------------------------------------------
         """
