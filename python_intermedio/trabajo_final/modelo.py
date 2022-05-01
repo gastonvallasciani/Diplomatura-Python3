@@ -13,6 +13,7 @@ import re
 class Abmc():
     def __init__(self) -> None:
         self.objeto_db = DatabaseManager()
+    
 
     def actualizar_treeview(self, mitreeview, db_local):
         records = mitreeview.get_children()
@@ -27,11 +28,13 @@ class Abmc():
                 "", " 0", text=fila[0], tag = 'fuente', 
                 values=(fila[1], fila[2], fila[3], fila[4], fila[5])
                 )
+
     def item_seleccionado_treeview(self, mitreeview):
         item = mitreeview.focus()
         if item != "":
             num_socio = mitreeview.item(item, option="text")
-            return num_socio    
+            return num_socio
+                
     def modificar_socio_existente(self, treeview, db_local, nombre_socio_local, 
         apellido_socio_local, edad_socio_local, 
         vencimiento_apto_medico_local = None):
@@ -214,11 +217,4 @@ class Abmc():
                 str = str + f"estado apto medico: {data_from_db[5]}\n"
                 archivo.write(str)
         archivo.close()
-#------------------------------------------------------------------------------
-def borrar_variables_control(nombre_socio, apellido_socio, edad_socio, 
-        vencimiento_apto_medico):
-    nombre_socio.set("")
-    apellido_socio.set("")
-    edad_socio.set("")
-    vencimiento_apto_medico.set("")
 #------------------------------------------------------------------------------
