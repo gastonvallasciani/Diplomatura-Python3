@@ -1,19 +1,18 @@
 #------------------------------------------------------------------------------
 from sqlite3_module.sqlite_mod import DatabaseManager
+from data_validation_module.data_validation_mod import dataValidationManager
 
 from tkinter import messagebox
 
-from pickle import FALSE, TRUE
+from pickle import TRUE
+from pickle import FALSE
 
 import datetime as date
-
-import re
-
 #------------------------------------------------------------------------------
 class Abmc():
     def __init__(self) -> None:
         self.objeto_db = DatabaseManager()
-    
+        self.objeto_data_val = dataValidationManager()
 
     def actualizar_treeview(self, mitreeview, db_local):
         records = mitreeview.get_children()
@@ -34,7 +33,7 @@ class Abmc():
         if item != "":
             num_socio = mitreeview.item(item, option="text")
             return num_socio
-                
+
     def modificar_socio_existente(self, treeview, db_local, nombre_socio_local, 
         apellido_socio_local, edad_socio_local, 
         vencimiento_apto_medico_local = None):
@@ -47,19 +46,15 @@ class Abmc():
         if num_socio_a_modificar:
             str_aux = vencimiento_apto_medico_local
 
-            patron = re.compile("[a-zA-Z áéíóú]")
-            patron_numeros = re.compile("[1-9][0-9]{0,1}")
-            patron_fecha = re.compile("^[\d]{4}-[\d]{2}-[\d]{2}$")
-
-            if patron.match(nombre_socio_local) == None:
+            if self.objeto_data_val.validar_letras(nombre_socio_local) == FALSE:
                 guardar_cliente = FALSE
                 str_aux_2 = " No se ha cargado el nombre del socio de forma correcta"
                 messagebox.showwarning(message=str_aux_2)
-            elif patron.match(nombre_socio_local) == None:
+            elif self.objeto_data_val.validar_letras(nombre_socio_local) == FALSE:
                 guardar_cliente = FALSE
                 str_aux_2 = " No se ha cargado el apellido del socio de forma correcta"
                 messagebox.showwarning(message=str_aux_2)
-            elif patron_numeros.match(edad_socio_local) == None:
+            elif self.objeto_data_val.validar_numeros(edad_socio_local) == FALSE:
                 guardar_cliente = FALSE
                 str_aux_2 = " No se ha cargado la edad del socio de forma correcta"
                 messagebox.showwarning(message=str_aux_2)
@@ -74,7 +69,7 @@ class Abmc():
             else:
                 # Ejecuto el parseo de la fecha del apto medico ingresada. 
                 # Puedo guardar el socio.
-                if patron_fecha.match(str_aux) != None:
+                if self.objeto_data_val.validar_fecha(str_aux) == TRUE:
                     guardar_cliente = TRUE
                     list_local = str_aux.split("-")
                     # Formato de fecha: AAAA-MM-DD
@@ -136,19 +131,15 @@ class Abmc():
 
         str_aux = vencimiento_apto_medico_local
 
-        patron = re.compile("[a-zA-Z áéíóú]")
-        patron_numeros = re.compile("[1-9][0-9]{0,1}")
-        patron_fecha = re.compile("^[\d]{4}-[\d]{2}-[\d]{2}$")
-
-        if patron.match(nombre_socio_local) == None:
+        if self.objeto_data_val.validar_letras(nombre_socio_local) == FALSE:
             guardar_cliente = FALSE
             str_aux_2 = " No se ha cargado el nombre del socio de forma correcta"
             messagebox.showwarning(message=str_aux_2)
-        elif patron.match(nombre_socio_local) == None:
+        elif self.objeto_data_val.validar_letras(nombre_socio_local) == FALSE:
             guardar_cliente = FALSE
             str_aux_2 = " No se ha cargado el apellido del socio de forma correcta"
             messagebox.showwarning(message=str_aux_2)
-        elif patron_numeros.match(edad_socio_local) == None:
+        elif self.objeto_data_val.validar_numeros(edad_socio_local) == FALSE:
             guardar_cliente = FALSE
             str_aux_2 = " No se ha cargado la edad del socio de forma correcta"
             messagebox.showwarning(message=str_aux_2)
@@ -163,7 +154,7 @@ class Abmc():
         else:
             # Ejecuto el parseo de la fecha del apto medico ingresada. 
             # Puedo guardar el socio.
-            if patron_fecha.match(str_aux) != None:
+            if self.objeto_data_val.validar_fecha(str_aux) == TRUE:
                 guardar_cliente = TRUE
                 list_local = str_aux.split("-")
                 # Formato de fecha: AAAA-MM-DD
