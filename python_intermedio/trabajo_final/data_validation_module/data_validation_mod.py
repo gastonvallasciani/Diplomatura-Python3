@@ -2,7 +2,7 @@ from pickle import FALSE
 from pickle import TRUE
 import re
 
-class dataValidationManager():
+class DataValidationManager():
     def __init__(self) -> None:
         pass
 

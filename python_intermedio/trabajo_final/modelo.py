@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 from sqlite3_module.sqlite_mod import DatabaseManager
-from data_validation_module.data_validation_mod import dataValidationManager
+from data_validation_module.data_validation_mod import DataValidationManager
 
 from tkinter import messagebox
 
@@ -12,7 +12,7 @@ import datetime as date
 class Abmc():
     def __init__(self) -> None:
         self.objeto_db = DatabaseManager()
-        self.objeto_data_val = dataValidationManager()
+        self.objeto_data_val = DataValidationManager()
 
     def actualizar_treeview(self, mitreeview, db_local):
         records = mitreeview.get_children()
