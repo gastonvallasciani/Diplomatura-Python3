@@ -8,23 +8,27 @@ class DatabaseManager():
         con = sqlite3.connect("socios.db")
         return con
 
-    def cerrar_base(self, con):
+    def cerrar_base(self):
+        con = self.crear_base()
         con.close()
 
-    def crear_tabla(self, con):
+    def crear_tabla(self):
+        con = self.crear_base()
         cursor = con.cursor()
         sql = "CREATE TABLE IF NOT EXISTS socios(num_socio integer PRIMARY KEY, nombre text, apellido text, edad text, vencimiento_apto_medico text, estado_apto_medico text)"
         cursor.execute(sql)
         con.commit()
 
-    def insertar(self, con, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+    def insertar(self, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+        con = self.crear_base()
         cursor = con.cursor()
         data = (str(nombre), str(apellido), str(edad), str(vencimiento_apto_medico), str(estado_apto_medico))
         sql = "INSERT INTO socios(nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico) VALUES(?, ?, ?, ?, ?)"
         cursor.execute(sql, data)
         con.commit()
 
-    def borrar(self, con, num_socio):
+    def borrar(self, num_socio):
+        con = self.crear_base()
         cursor = con.cursor()
         num_socio = int(num_socio)
         data = (num_socio,)
@@ -32,8 +36,9 @@ class DatabaseManager():
         cursor.execute(sql, data)
         con.commit()
 
-    def seleccionar(self, con, num_socio):
+    def seleccionar(self, num_socio):
         row = ()
+        con = self.crear_base()
         cursor = con.cursor()
         num_socio = int(num_socio)
         data = (num_socio,)
@@ -50,13 +55,15 @@ class DatabaseManager():
         #    row = (num_socio,"","","","","")
         return row
 
-    def seleccionar_todos(self, con):
+    def seleccionar_todos(self,):
         sql = "SELECT * FROM socios ORDER BY num_socio ASC"
+        con = self.crear_base()
         cursor = con.cursor()
         data = cursor.execute(sql)
         return data.fetchall()
 
-    def cantidad_registros(self, con):
+    def cantidad_registros(self,):
+        con = self.crear_base()
         cursor = con.cursor()
         #sql = "SELECT COUNT(*) FROM socios;"
         sql = "SELECT MAX(num_socio) FROM socios;"
@@ -68,7 +75,8 @@ class DatabaseManager():
         else:
             return 0
 
-    def actualizar(self, con, num_socio, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+    def actualizar(self, num_socio, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+        con = self.crear_base()
         cursor = con.cursor()
         num_socio = int(num_socio)
         data = (str(nombre), str(apellido), str(edad), str(vencimiento_apto_medico), str(estado_apto_medico), num_socio)

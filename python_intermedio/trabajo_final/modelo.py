@@ -14,12 +14,12 @@ class Abmc():
         self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
 
-    def actualizar_treeview(self, mitreeview, db_local):
+    def actualizar_treeview(self, mitreeview):
         records = mitreeview.get_children()
         for element in records:
             mitreeview.delete(element)
         
-        resultado = self.objeto_db.seleccionar_todos(db_local)
+        resultado = self.objeto_db.seleccionar_todos()
 
         for fila in resultado:
             print(fila)
@@ -34,7 +34,7 @@ class Abmc():
             num_socio = mitreeview.item(item, option="text")
             return num_socio
 
-    def modificar_socio_existente(self, treeview, db_local, nombre_socio_local, 
+    def modificar_socio_existente(self, treeview, nombre_socio_local, 
         apellido_socio_local, edad_socio_local, 
         vencimiento_apto_medico_local = None):
 
@@ -101,27 +101,27 @@ class Abmc():
 
         if(guardar_cliente == TRUE):
             self.objeto_db.actualizar(
-                db_local, num_socio_a_modificar, nombre_socio_local, 
+                num_socio_a_modificar, nombre_socio_local, 
                 apellido_socio_local, edad_socio_local, 
                 vencimiento_apto_medico_local, estado_apto_medico_local
                 )
-            self.actualizar_treeview(treeview, db_local)
+            self.actualizar_treeview(treeview)
             messagebox.showinfo(message="El socio ha sido modificado exitosamente!")
         else:
             str_aux_2 = " El socio no ha sido modificado "
             str_aux_2 = str_aux_2 + "por un error en la carga de datos"
             messagebox.showwarning(message=str_aux_2)
 
-    def borrar_socio(self, treeview, db_local):
+    def borrar_socio(self, treeview):
         num_socio_a_borrar = self.item_seleccionado_treeview(treeview)
         if num_socio_a_borrar:
-            self.objeto_db.borrar(db_local, num_socio_a_borrar)
-            self.actualizar_treeview(treeview, db_local)
+            self.objeto_db.borrar(num_socio_a_borrar)
+            self.actualizar_treeview(treeview)
         else:
             str_aux = "No se ha borrado el socio ya que no ha seleccionado ninguno!"
             messagebox.showwarning(message=str_aux)
 
-    def guardar_nuevo_socio(self, treeview, db_local, nombre_socio_local, 
+    def guardar_nuevo_socio(self, treeview, nombre_socio_local, 
         apellido_socio_local, edad_socio_local, 
         vencimiento_apto_medico_local = None):
     
@@ -184,22 +184,22 @@ class Abmc():
 
         if(guardar_cliente == TRUE):
             self.objeto_db.insertar(
-                db_local, nombre_socio_local, apellido_socio_local, 
+                nombre_socio_local, apellido_socio_local, 
                 edad_socio_local, vencimiento_apto_medico_local, 
                 estado_apto_medico_local
                 )
-            self.actualizar_treeview(treeview, db_local)
+            self.actualizar_treeview(treeview)
             messagebox.showinfo(message="El socio ha sido guardado exitosamente!")
         else:
             str_aux_2=" El socio no ha sido cargado "
             str_aux_2 = str_aux_2 + "por un error en la carga de datos"
             messagebox.showwarning(message=str_aux_2)
     
-    def exportar_base_txt(self, db_local):
-        cantidad_de_registros_local = self.objeto_db.cantidad_registros(db_local)
+    def exportar_base_txt(self):
+        cantidad_de_registros_local = self.objeto_db.cantidad_registros()
         archivo = open("base_de_datos_socios.txt","w")
         for counter in range(1, cantidad_de_registros_local+1):
-            data_from_db = self.objeto_db.seleccionar(db_local, counter)
+            data_from_db = self.objeto_db.seleccionar(counter)
             if data_from_db != ():
                 str = f"Numero de socio: {data_from_db[0]},"
                 str = str + f"nombre: {data_from_db[1]}, apellido: {data_from_db[2]},"

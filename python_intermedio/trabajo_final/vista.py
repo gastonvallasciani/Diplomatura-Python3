@@ -25,8 +25,8 @@ class Panel():
         self.abmc = Abmc()
 
         try:
-            self.db = self.abmc.objeto_db.crear_base()
-            self.abmc.objeto_db.crear_tabla(self.db)
+            self.abmc.objeto_db.crear_base()
+            self.abmc.objeto_db.crear_tabla()
         except:
             print("error")
 
@@ -100,7 +100,7 @@ class Panel():
         # Entra al loop una unica vez
         if inicio == FALSE:
             inicio = TRUE
-            self.abmc.actualizar_treeview(self.tree, self.db)
+            self.abmc.actualizar_treeview(self.tree)
           
     def borrar_variables_control(self, ):
         self.nombre_socio.set("")
@@ -151,7 +151,7 @@ class Panel():
 
         self.boton = Button(
             self.tl, text = "Dar de alta", bg='#0052cc', fg='#ffffff', 
-            command=lambda:[self.abmc.guardar_nuevo_socio(self.tree, self.db, self.nombre_socio.get(), 
+            command=lambda:[self.abmc.guardar_nuevo_socio(self.tree, self.nombre_socio.get(), 
                 self.apellido_socio.get(), self.edad_socio.get(), 
                 self.vencimiento_apto_medico.get()), 
                 self.borrar_variables_control(),
@@ -182,7 +182,7 @@ class Panel():
 
         self.boton1 = Button(
             self.tl, text = "Dar de baja", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[self.abmc.borrar_socio(self.tree, self.db), 
+            fg='#ffffff', command=lambda:[self.abmc.borrar_socio(self.tree), 
             self.borrar_variables_control(), self.tl.destroy()]
             )
         self.boton1.place(x = 60, y = 60)
@@ -237,7 +237,7 @@ class Panel():
 
         self.boton = Button(
             self.tl, text = "Modificar", height=1, width=10, bg='#0052cc', 
-            fg='#ffffff', command=lambda:[self.abmc.modificar_socio_existente(self.tree, self.db, 
+            fg='#ffffff', command=lambda:[self.abmc.modificar_socio_existente(self.tree, 
                 self.nombre_socio.get(), self.apellido_socio.get(), self.edad_socio.get(), 
                 self.vencimiento_apto_medico.get()), 
             self.borrar_variables_control(), self.tl.destroy()]
@@ -268,7 +268,7 @@ class Panel():
 
         self.boton1 = Button(
             self.tl, text = "Exportar base", height=1, width=10, 
-            bg='#0052cc', fg='#ffffff', command=lambda:[self.abmc.exportar_base_txt(self.db), 
+            bg='#0052cc', fg='#ffffff', command=lambda:[self.abmc.exportar_base_txt(), 
             self.tl.destroy()]
             )
         self.boton1.place(x = 60, y = 50)
@@ -290,7 +290,7 @@ class Panel():
         self.tl.grab_set()
         self.tl.transient(master=self.root)
         
-        str1 = "Python 3 - Nivel Inicial\n\n Autor: Gaston Vallasciani"
+        str1 = "Python 3 - Nivel Intermedio\n\n Autor: Gaston Vallasciani"
         str2 = f"\n\n Versión de software: {app_version}" 
         str = str1 + str2
         self.label1 = Label(
