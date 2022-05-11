@@ -29,7 +29,7 @@ class Panel():
         self.tipo_base_val = StringVar()
         self.tipo_base_val.set("Sqlite3")
         self.tipo_base_entry = Entry(self.root, textvariable = self.tipo_base_val, width = w_ancho)
-        self.tipo_base_entry.grid(row=2, column=1, sticky=W)
+        self.tipo_base_entry.grid(row=2, column=1)
 
 
         self.objeto=modelo.Abmc()
