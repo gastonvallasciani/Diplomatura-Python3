@@ -1,68 +1,65 @@
-import sqlite3
-import re
+from sqlite3_mod import Sqlite3_database
+from mysql_mod import Mysql_database
 # ##############################################
 # MODELO
 # ##############################################
-class Abmc():
-    def __init__(self, ): pass
+class Database():
+    def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
+        self.database_name = database_name
+        self.database_type = database_type
+
+    def configurar_database(self, database_name, database_type):
+        self.database_name = database_name
+        self.database_type = database_type
+        print(f"new_database_name: {self.database_name}")
+        print(f"new_database_type: {self.database_type}")
+
+    def imprimir_atributos_por_consola(self,):
+        print(f"database_name: {self.database_name}")
+        print(f"database_type: {self.database_type}")
+        
+class Abmc(Database):
+
+    objecto_sqlite3 = Sqlite3_database()
+    objeto_mysql = Mysql_database()
+
+    def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
+        super().__init__(database_name, database_type)
+        
+    def iniciar_database(self,):
+        if self.database_type == "SQlite3":
+            try:
+                self.objecto_sqlite3.conexion_sqlite3(self.database_name)
+                self.objecto_sqlite3.crear_tabla_sqlite3(self.database_name)
+            except:
+                print("Error")
+        elif self.database_type == "MySQL":
+            try:
+                self.objeto_mysql.crear_base_mysql(self.database_name)
+                self.objeto_mysql.crear_tabla_mysql(self.database_name)
+            except:
+                print("Error")
+
+    def alta(self, nombre_base, producto, cantidad, precio, tree):
+        if self.database_type == "SQlite3":
+            self.objecto_sqlite3.alta_sqlite3(nombre_base, producto, cantidad, precio, tree)
+        elif self.database_type == "MySQL":
+            self.objeto_mysql.alta_mysql(nombre_base, producto, cantidad, precio, tree)
+
+    def actualizar_treeview(self, nombre_base, mitreview):
+        if self.database_type == "SQlite3":
+            self.objecto_sqlite3.actualizar_treeview_sqlite3(nombre_base, mitreview)
+        elif self.database_type == "MySQL":
+            self.objeto_mysql.actualizar_treeview_mysql(nombre_base, mitreview)
+        
 
 
-    def conexion(self,):
-        con = sqlite3.connect("mibase.db")
-        return con
+if __name__=="__main__":
+    objeto_database = Database()
+    objeto_database.imprimir_atributos_por_consola()
 
-    def crear_tabla(self,):
-        con = self.conexion()
-        cursor = con.cursor()
-        sql = """CREATE TABLE productos
-                (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                producto varchar(20) NOT NULL,
-                cantidad real,
-                precio real)
-        """
-        cursor.execute(sql)
-        con.commit()
-
-    #try:
-    #    conexion()
-    #    crear_tabla()
-    #except:
-    #    print("Hay un error")
-
-
-    def alta(self, producto, cantidad, precio, tree):
-        cadena = producto
-        patron="^[A-Za-záéíóú]*$"  #regex para el campo cadena
-        if(re.match(patron, cadena)):
-            print(producto, cantidad, precio)
-            con=self.conexion()
-            cursor=con.cursor()
-            data=(producto, cantidad, precio)
-            sql="INSERT INTO productos(producto, cantidad, precio) VALUES(?, ?, ?)"
-            cursor.execute(sql, data)
-            con.commit()
-            print("Estoy en alta todo ok")
-            self.actualizar_treeview(tree)
-        else:
-            print("error en campo producto")
-
-    def actualizar_treeview(self, mitreview):
-        records = mitreview.get_children()
-        for element in records:
-            mitreview.delete(element)
-
-        sql = "SELECT * FROM productos ORDER BY id ASC"
-        con=self.conexion()
-        cursor=con.cursor()
-        datos=cursor.execute(sql)
-
-        resultado = datos.fetchall()
-        for fila in resultado:
-            print(fila)
-            mitreview.insert("", 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
-
-
-
+    objeto_abmc = Abmc()
+    objeto_abmc.imprimir_atributos_por_consola()
 
 
 """
