@@ -7,6 +7,8 @@ class Database():
     def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
         self.database_name = database_name
         self.database_type = database_type
+        self.objecto_sqlite3 = Sqlite3_database()
+        self.objeto_mysql = Mysql_database()
 
     def configurar_database(self, database_name, database_type):
         self.database_name = database_name
@@ -17,15 +19,7 @@ class Database():
     def imprimir_atributos_por_consola(self,):
         print(f"database_name: {self.database_name}")
         print(f"database_type: {self.database_type}")
-        
-class Abmc(Database):
 
-    objecto_sqlite3 = Sqlite3_database()
-    objeto_mysql = Mysql_database()
-
-    def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
-        super().__init__(database_name, database_type)
-        
     def iniciar_database(self,):
         if self.database_type == "SQlite3":
             try:
@@ -51,6 +45,11 @@ class Abmc(Database):
             self.objecto_sqlite3.actualizar_treeview_sqlite3(nombre_base, mitreview)
         elif self.database_type == "MySQL":
             self.objeto_mysql.actualizar_treeview_mysql(nombre_base, mitreview)
+        
+class Abmc(Database):
+    def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
+        super().__init__(database_name, database_type)
+        
         
 
 
