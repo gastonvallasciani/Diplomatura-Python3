@@ -48,11 +48,9 @@ class Database():
         
 class Abmc(Database):
     def __init__(self, database_name="BASE_DEFAULT", database_type="SQlite3"):
-        super().__init__(database_name, database_type)
+        super(Abmc, self).__init__(database_name, database_type)
         
         
-
-
 if __name__=="__main__":
     objeto_database = Database()
     objeto_database.imprimir_atributos_por_consola()
