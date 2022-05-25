@@ -24,11 +24,7 @@ class Panel():
         self.root = window
         self.abmc = Abmc()
 
-        try:
-            self.abmc.objeto_db.crear_base()
-            self.abmc.objeto_db.crear_tabla()
-        except:
-            print("error")
+        self.abmc.iniciar_base()
 
         self.root.title("GYM MANAGER")
         self.root.geometry("690x285")

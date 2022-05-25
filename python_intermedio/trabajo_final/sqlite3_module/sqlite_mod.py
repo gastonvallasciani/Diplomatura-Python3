@@ -15,7 +15,7 @@ class DatabaseManager():
     def crear_tabla(self):
         con = self.crear_base()
         cursor = con.cursor()
-        sql = "CREATE TABLE IF NOT EXISTS socios(num_socio integer PRIMARY KEY, nombre text, apellido text, edad text, vencimiento_apto_medico text, estado_apto_medico text)"
+        sql = "CREATE TABLE socios(num_socio integer PRIMARY KEY, nombre text, apellido text, edad text, vencimiento_apto_medico text, estado_apto_medico text)"
         cursor.execute(sql)
         con.commit()
 
