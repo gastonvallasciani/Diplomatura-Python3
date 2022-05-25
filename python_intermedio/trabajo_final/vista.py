@@ -12,17 +12,15 @@ from tkinter import W, messagebox
 from tkinter.font import BOLD
 
 from modelo import Abmc
-#------------------------------------------------------------------------------
-app_version = "1.0.0"
-inicio = FALSE
+from system_app_module.system_app_mod import SystemApp
+
 #------------------------------------------------------------------------------
 class Panel():
     def __init__(self, window):
-        global  app_version 
-        global inicio
 
         self.root = window
         self.abmc = Abmc()
+        self.system_app = SystemApp("1.0.0.1", FALSE)
 
         self.root.title("GYM MANAGER")
         self.root.geometry("690x285")
@@ -92,8 +90,8 @@ class Panel():
 
         # Inicializo el treeview con los datos de la base de datos 
         # Entra al loop una unica vez
-        if inicio == FALSE:
-            inicio = TRUE
+        if self.system_app.inicio == FALSE:
+            self.system_app.inicio = TRUE
             self.abmc.actualizar_treeview(self.tree)
           
     def borrar_variables_control(self, ):
@@ -274,8 +272,6 @@ class Panel():
         self.boton2.place(x = 180, y = 50)
 
     def help_acercade_win(self, ):
-        global app_version
-
         self.tl =Toplevel(self.root)
         self.tl['bg'] = '#49A'
         self.tl.title("Acerca de...")
@@ -285,7 +281,7 @@ class Panel():
         self.tl.transient(master=self.root)
         
         str1 = "Python 3 - Nivel Intermedio\n\n Autor: Gaston Vallasciani"
-        str2 = f"\n\n Versión de software: {app_version}" 
+        str2 = f"\n\n Versión de software: {self.system_app.version}" 
         str = str1 + str2
         self.label1 = Label(
             self.tl, text = str, anchor= W, bg="#49A", fg='#ffffff', 
