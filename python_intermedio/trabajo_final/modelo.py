@@ -1,6 +1,5 @@
 #------------------------------------------------------------------------------
 from sqlite3_module.sqlite_mod import DatabaseManager
-import sqlite3
 from data_validation_module.data_validation_mod import DataValidationManager
 
 from tkinter import messagebox
@@ -14,18 +13,7 @@ class Abmc():
     def __init__(self):
         self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
-
-    def iniciar_base(self, ):
-        print("Iniciando base de datos")
-        try:
-            self.objeto_db.crear_base()
-            self.objeto_db.crear_tabla()
-        except sqlite3.OperationalError as op_error:
-            print("Error capturado: ", op_error)
-        else:
-            print("Base de datos y tabla creadas correctamente")
-        finally:
-            print("Finalizo el inicio de la base de datos")
+        self.objeto_db.iniciar_base()
 
     def actualizar_treeview(self, mitreeview):
         records = mitreeview.get_children()

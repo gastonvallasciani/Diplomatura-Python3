@@ -24,8 +24,6 @@ class Panel():
         self.root = window
         self.abmc = Abmc()
 
-        self.abmc.iniciar_base()
-
         self.root.title("GYM MANAGER")
         self.root.geometry("690x285")
         self.root['bg'] = '#49A'

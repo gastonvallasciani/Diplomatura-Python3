@@ -19,6 +19,18 @@ class DatabaseManager():
         cursor.execute(sql)
         con.commit()
 
+    def iniciar_base(self, ):
+        print("Iniciando base de datos")
+        try:
+            self.crear_base()
+            self.crear_tabla()
+        except sqlite3.OperationalError as op_error:
+            print("Error capturado: ", op_error)
+        else:
+            print("Base de datos y tabla creadas correctamente")
+        finally:
+            print("Finalizo el inicio de la base de datos")
+
     def insertar(self, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
         con = self.crear_base()
         cursor = con.cursor()
