@@ -1,7 +1,7 @@
 import sqlite3
 
 class DatabaseManager():
-    def __init__(self) -> None:
+    def __init__(self):
         pass
          
     def crear_base(self,):
