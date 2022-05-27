@@ -1,5 +1,0 @@
-Se ha dado un error:  archivo1.txt 7 2022-05-25 23:16:12.430938
-Se ha dado un error:  archivo1.txt 7 2022-05-25 23:16:47.291533
-Evento:  Inicio de app 2022-05-25 23:16:47.292577
-Se ha dado un error:  archivo1.txt 7 2022-05-25 23:16:48.624119
-Evento:  Inicio de app 2022-05-25 23:16:48.625119

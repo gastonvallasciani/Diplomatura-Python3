@@ -1,39 +1,57 @@
 import os
 import datetime
 
-class RegistroLog(Exception):
-
+class RegistroLogError(Exception):
+    
     BASE_DIR = os.path.dirname((os.path.abspath(__file__)))
-    ruta = os.path.join(BASE_DIR, "log.txt")
+    ruta = os.path.join(BASE_DIR, "log_error.txt")
 
-    def __init__(self, linea, archivo, fecha):
+    def __init__(self, linea = 1, archivo = "ejemplo.py", fecha = datetime.datetime.now()):
         self.linea = linea
         self.archivo = archivo
         self.fecha = fecha
     
-    def registrar_log_error(self):
+    def registrar_log_error(self, linea, archivo, fecha):
+        self.linea = linea
+        self.archivo = archivo
+        self.fecha = fecha
+        
         log = open(self.ruta, "a")
-        print("Error: ", self.archivo, self.linea, self.fecha, file=log)
+        print(f"Error detectado: " , self.archivo, self.linea, self.fecha, file=log)
 
-    def registrar_log_evento(self, evento):
+class RegistroLogEvento(Exception):
+
+    BASE_DIR = os.path.dirname((os.path.abspath(__file__)))
+    ruta = os.path.join(BASE_DIR, "log_evento.txt")
+
+    def __init__(self, fecha = datetime.datetime.now(), evento = "ERROR"):
+        self.fecha = fecha
+        self.evento = evento
+
+    def registrar_log_evento(self, evento, fecha):
+        self.fecha = fecha
+        self.evento = evento
         log = open(self.ruta, "a")
-        print("Evento: ", evento, self.fecha, file=log)
+        print(f"Evento: {self.evento}, Fecha: {self.fecha}", file=log)
+
+class RegistrarLog():
+    def ejecutar_registro_log_error(self, linea, archivo, fecha):
+        try:
+            raise RegistroLogError()
+        except RegistroLogError as log:
+            log.registrar_log_error(linea, archivo, fecha)
+
+    def ejecutar_registro_log_evento(self, evento, fecha):
+        try:
+            raise RegistroLogEvento()
+        except RegistroLogEvento as log:
+            log.registrar_log_evento(evento, fecha)    
 
 
 if __name__ == "__main__":
-    def registrar():
-        raise RegistroLog(7, 'archivo1.txt', datetime.datetime.now())
+    objeto_registro = RegistrarLog()
 
-    def registrar_evento():
-        raise RegistroLog(7, 'archivo1.txt', datetime.datetime.now()) 
+    objeto_registro.ejecutar_registro_log_error(7, 'archivo1.txt', datetime.datetime.now())
 
-    try:
-        registrar()
-    except RegistroLog as log:
-        log.registrar_log_error()
-
-    try:
-        registrar_evento()
-    except RegistroLog as log:
-        log.registrar_log_evento("Inicio de app")
+    objeto_registro.ejecutar_registro_log_evento("Inicio de app", datetime.datetime.now())
 

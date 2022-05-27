@@ -1,6 +1,7 @@
 #------------------------------------------------------------------------------
 from sqlite3_module.sqlite_mod import DatabaseManager
 from data_validation_module.data_validation_mod import DataValidationManager
+from registro_log_module.registro_log_mod import RegistrarLog
 
 from tkinter import messagebox
 
@@ -13,6 +14,7 @@ class Abmc():
     def __init__(self):
         self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
+        self.objeto_log = RegistrarLog()
         self.objeto_db.iniciar_base()
 
     def actualizar_treeview(self, mitreeview):
@@ -107,18 +109,22 @@ class Abmc():
                 vencimiento_apto_medico_local, estado_apto_medico_local
                 )
             self.actualizar_treeview(treeview)
+            self.objeto_log.ejecutar_registro_log_evento("SOCIO MODIFICADO", date.datetime.now())
             messagebox.showinfo(message="El socio ha sido modificado exitosamente!")
         else:
             str_aux_2 = " El socio no ha sido modificado "
             str_aux_2 = str_aux_2 + "por un error en la carga de datos"
+            self.objeto_log.ejecutar_registro_log_evento("SOCIO MODIFICADO INTENTO FALLIDO", date.datetime.now())
             messagebox.showwarning(message=str_aux_2)
 
     def borrar_socio(self, treeview):
         num_socio_a_borrar = self.item_seleccionado_treeview(treeview)
         if num_socio_a_borrar:
+            self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO", date.datetime.now())
             self.objeto_db.borrar(num_socio_a_borrar)
             self.actualizar_treeview(treeview)
         else:
+            self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO INTENTO FALLIDO", date.datetime.now())
             str_aux = "No se ha borrado el socio ya que no ha seleccionado ninguno!"
             messagebox.showwarning(message=str_aux)
 
@@ -191,7 +197,9 @@ class Abmc():
                 )
             self.actualizar_treeview(treeview)
             messagebox.showinfo(message="El socio ha sido guardado exitosamente!")
+            self.objeto_log.ejecutar_registro_log_evento("ALTA SOCIO", date.datetime.now())
         else:
+            self.objeto_log.ejecutar_registro_log_evento("ALTA SOCIO INTENTO FALLIDO", date.datetime.now())
             str_aux_2=" El socio no ha sido cargado "
             str_aux_2 = str_aux_2 + "por un error en la carga de datos"
             messagebox.showwarning(message=str_aux_2)
@@ -208,5 +216,6 @@ class Abmc():
                 str = str + f"vencimiento apto medico: {data_from_db[4]},"
                 str = str + f"estado apto medico: {data_from_db[5]}\n"
                 archivo.write(str)
+        self.objeto_log.ejecutar_registro_log_evento("DATABASE EXPORTADA", date.datetime.now())
         archivo.close()
 #------------------------------------------------------------------------------

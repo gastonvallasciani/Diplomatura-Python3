@@ -13,6 +13,7 @@ from tkinter.font import BOLD
 
 from modelo import Abmc
 from system_app_module.system_app_mod import SystemApp
+import datetime as date
 
 #------------------------------------------------------------------------------
 class Panel():
@@ -21,6 +22,7 @@ class Panel():
         self.root = window
         self.abmc = Abmc()
         self.system_app = SystemApp("1.0.0.1", FALSE)
+        self.abmc.objeto_log.ejecutar_registro_log_evento(f"INICIO APP, v{self.system_app.version}", date.datetime.now())
 
         self.root.title("GYM MANAGER")
         self.root.geometry("690x285")
@@ -298,5 +300,6 @@ class Panel():
     def salirAplicacion(self, ):
         valor=messagebox.askquestion("Salir","¿Deseas salir de la aplicación?")
         if valor=="yes":
+            self.abmc.objeto_log.ejecutar_registro_log_evento(f"FIN APP", date.datetime.now())
             self.root.destroy()
 #------------------------------------------------------------------------------

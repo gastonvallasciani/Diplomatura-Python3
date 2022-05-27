@@ -1,1 +1,0 @@
-Numero de socio: 1,nombre: fsdf, apellido: fsfd,edad: 23,vencimiento apto medico: ,estado apto medico: NO PRESENTADO
