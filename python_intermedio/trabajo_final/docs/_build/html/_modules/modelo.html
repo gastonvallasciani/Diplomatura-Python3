@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>modelo &#8212; TrabajoFinal 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for modelo</h1><div class="highlight"><pre>
+<span></span><span class="c1">#------------------------------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">sqlite3_module.sqlite_mod</span> <span class="kn">import</span> <span class="n">DatabaseManager</span>
+<span class="kn">from</span> <span class="nn">data_validation_module.data_validation_mod</span> <span class="kn">import</span> <span class="n">DataValidationManager</span>
+<span class="kn">from</span> <span class="nn">registro_log_module.registro_log_mod</span> <span class="kn">import</span> <span class="n">RegistrarLog</span>
+
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
+
+<span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">TRUE</span>
+<span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">FALSE</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">date</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Abmc"><a class="viewcode-back" href="../modelo.html#modelo.Abmc">[docs]</a><span class="k">class</span> <span class="nc">Abmc</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span> <span class="o">=</span> <span class="n">DataValidationManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span> <span class="o">=</span> <span class="n">RegistrarLog</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">iniciar_base</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Abmc.actualizar_treeview"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.actualizar_treeview">[docs]</a>    <span class="k">def</span> <span class="nf">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mitreeview</span><span class="p">):</span>
+        <span class="n">records</span> <span class="o">=</span> <span class="n">mitreeview</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">records</span><span class="p">:</span>
+            <span class="n">mitreeview</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        
+        <span class="n">resultado</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">seleccionar_todos</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">resultado</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">fila</span><span class="p">)</span>
+            <span class="n">mitreeview</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot; 0&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">fila</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tag</span> <span class="o">=</span> <span class="s1">&#39;fuente&#39;</span><span class="p">,</span> 
+                <span class="n">values</span><span class="o">=</span><span class="p">(</span><span class="n">fila</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">fila</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+                <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Abmc.item_seleccionado_treeview"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.item_seleccionado_treeview">[docs]</a>    <span class="k">def</span> <span class="nf">item_seleccionado_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mitreeview</span><span class="p">):</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">mitreeview</span><span class="o">.</span><span class="n">focus</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">num_socio</span> <span class="o">=</span> <span class="n">mitreeview</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">num_socio</span></div>
+
+<div class="viewcode-block" id="Abmc.modificar_socio_existente"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.modificar_socio_existente">[docs]</a>    <span class="k">def</span> <span class="nf">modificar_socio_existente</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeview</span><span class="p">,</span> <span class="n">nombre_socio_local</span><span class="p">,</span> 
+        <span class="n">apellido_socio_local</span><span class="p">,</span> <span class="n">edad_socio_local</span><span class="p">,</span> 
+        <span class="n">vencimiento_apto_medico_local</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;NO PRESENTADO&quot;</span>
+        
+        <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+        
+        <span class="n">num_socio_a_modificar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_seleccionado_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_socio_a_modificar</span><span class="p">:</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="n">vencimiento_apto_medico_local</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_letras</span><span class="p">(</span><span class="n">nombre_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado el nombre del socio de forma correcta&quot;</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_letras</span><span class="p">(</span><span class="n">nombre_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado el apellido del socio de forma correcta&quot;</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_numeros</span><span class="p">(</span><span class="n">edad_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado la edad del socio de forma correcta&quot;</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">10</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El formato de la fecha del apto médico es incorrecto&quot;</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>    
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># No se cargo la fecha de vencimiento del apto medico. Puedo </span>
+                <span class="c1"># guardar el socio.</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">TRUE</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Ejecuto el parseo de la fecha del apto medico ingresada. </span>
+                <span class="c1"># Puedo guardar el socio.</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_fecha</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">:</span>
+                    <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">TRUE</span>
+                    <span class="n">list_local</span> <span class="o">=</span> <span class="n">str_aux</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                    <span class="c1"># Formato de fecha: AAAA-MM-DD</span>
+                    <span class="n">date_apto_medico</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+                        <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> 
+                        <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="p">)</span>
+                    <span class="n">date_actual</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                    <span class="c1"># Verifico si el certificado presentado esta vencido</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">or</span> 
+                        <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> 
+                        <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">month</span> <span class="ow">or</span> 
+                        <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> 
+                        <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> 
+                        <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">day</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">day</span><span class="p">):</span>
+                        <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El apto medico presentado esta vencido&quot;</span>
+                        <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+                        <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;VENCIDO&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;VIGENTE&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                    <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El formato de fecha ingresado es incorrecto&quot;</span>
+                    <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot;No se ha modificado el socio &quot;</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="n">str_aux_2</span> <span class="o">+</span> <span class="s2">&quot;ya que no ha seleccionado ninguno!&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">guardar_cliente</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">actualizar</span><span class="p">(</span>
+                <span class="n">num_socio_a_modificar</span><span class="p">,</span> <span class="n">nombre_socio_local</span><span class="p">,</span> 
+                <span class="n">apellido_socio_local</span><span class="p">,</span> <span class="n">edad_socio_local</span><span class="p">,</span> 
+                <span class="n">vencimiento_apto_medico_local</span><span class="p">,</span> <span class="n">estado_apto_medico_local</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;SOCIO MODIFICADO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;El socio ha sido modificado exitosamente!&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El socio no ha sido modificado &quot;</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="n">str_aux_2</span> <span class="o">+</span> <span class="s2">&quot;por un error en la carga de datos&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;SOCIO MODIFICADO INTENTO FALLIDO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Abmc.borrar_socio"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.borrar_socio">[docs]</a>    <span class="k">def</span> <span class="nf">borrar_socio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeview</span><span class="p">):</span>
+        <span class="n">num_socio_a_borrar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_seleccionado_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_socio_a_borrar</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;SOCIO BORRADO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">borrar</span><span class="p">(</span><span class="n">num_socio_a_borrar</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;SOCIO BORRADO INTENTO FALLIDO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+            <span class="n">str_aux</span> <span class="o">=</span> <span class="s2">&quot;No se ha borrado el socio ya que no ha seleccionado ninguno!&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Abmc.guardar_nuevo_socio"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.guardar_nuevo_socio">[docs]</a>    <span class="k">def</span> <span class="nf">guardar_nuevo_socio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeview</span><span class="p">,</span> <span class="n">nombre_socio_local</span><span class="p">,</span> 
+        <span class="n">apellido_socio_local</span><span class="p">,</span> <span class="n">edad_socio_local</span><span class="p">,</span> 
+        <span class="n">vencimiento_apto_medico_local</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    
+        <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+
+        <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;NO PRESENTADO&quot;</span>
+
+        <span class="n">str_aux</span> <span class="o">=</span> <span class="n">vencimiento_apto_medico_local</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_letras</span><span class="p">(</span><span class="n">nombre_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+            <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado el nombre del socio de forma correcta&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_letras</span><span class="p">(</span><span class="n">nombre_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+            <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado el apellido del socio de forma correcta&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_numeros</span><span class="p">(</span><span class="n">edad_socio_local</span><span class="p">)</span> <span class="o">==</span> <span class="n">FALSE</span><span class="p">:</span>
+            <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; No se ha cargado la edad del socio de forma correcta&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">10</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El formato de la fecha del apto médico es incorrecto&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># No se cargo la fecha de vencimiento del apto medico. </span>
+            <span class="c1"># Puedo guardar el socio.</span>
+            <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">TRUE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Ejecuto el parseo de la fecha del apto medico ingresada. </span>
+            <span class="c1"># Puedo guardar el socio.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_data_val</span><span class="o">.</span><span class="n">validar_fecha</span><span class="p">(</span><span class="n">str_aux</span><span class="p">)</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">TRUE</span>
+                <span class="n">list_local</span> <span class="o">=</span> <span class="n">str_aux</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="c1"># Formato de fecha: AAAA-MM-DD</span>
+                <span class="n">date_apto_medico</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> 
+                    <span class="nb">int</span><span class="p">(</span><span class="n">list_local</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="p">)</span>
+                <span class="n">date_actual</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                <span class="c1"># Verifico si el certificado presentado esta vencido</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">or</span> 
+                    <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> 
+                    <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">month</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">month</span> <span class="ow">or</span> 
+                    <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">year</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">year</span> <span class="ow">and</span> 
+                    <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">month</span> <span class="ow">and</span> 
+                    <span class="n">date_apto_medico</span><span class="o">.</span><span class="n">day</span> <span class="o">&lt;</span> <span class="n">date_actual</span><span class="o">.</span><span class="n">day</span><span class="p">):</span>
+                    <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El apto medico presentado esta vencido&quot;</span>
+                    <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+                <span class="c1"># estado_apto_medico_local.set(&quot;VENCIDO&quot;)</span>
+                    <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;VENCIDO&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># estado_apto_medico_local.set(&quot;VIGENTE&quot;)</span>
+                    <span class="n">estado_apto_medico_local</span> <span class="o">=</span> <span class="s2">&quot;VIGENTE&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">guardar_cliente</span> <span class="o">=</span> <span class="n">FALSE</span>
+                <span class="n">str_aux_2</span> <span class="o">=</span> <span class="s2">&quot; El formato de fecha ingresado es incorrecto&quot;</span>
+                <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">guardar_cliente</span> <span class="o">==</span> <span class="n">TRUE</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">insertar</span><span class="p">(</span>
+                <span class="n">nombre_socio_local</span><span class="p">,</span> <span class="n">apellido_socio_local</span><span class="p">,</span> 
+                <span class="n">edad_socio_local</span><span class="p">,</span> <span class="n">vencimiento_apto_medico_local</span><span class="p">,</span> 
+                <span class="n">estado_apto_medico_local</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;El socio ha sido guardado exitosamente!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;ALTA SOCIO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;ALTA SOCIO INTENTO FALLIDO&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+            <span class="n">str_aux_2</span><span class="o">=</span><span class="s2">&quot; El socio no ha sido cargado &quot;</span>
+            <span class="n">str_aux_2</span> <span class="o">=</span> <span class="n">str_aux_2</span> <span class="o">+</span> <span class="s2">&quot;por un error en la carga de datos&quot;</span>
+            <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">str_aux_2</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Abmc.exportar_base_txt"><a class="viewcode-back" href="../modelo.html#modelo.Abmc.exportar_base_txt">[docs]</a>    <span class="k">def</span> <span class="nf">exportar_base_txt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cantidad_de_registros_local</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">cantidad_registros</span><span class="p">()</span>
+        <span class="n">archivo</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;base_de_datos_socios.txt&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">cantidad_de_registros_local</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">data_from_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_db</span><span class="o">.</span><span class="n">seleccionar</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data_from_db</span> <span class="o">!=</span> <span class="p">():</span>
+                <span class="nb">str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Numero de socio: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;nombre: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">, apellido: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;edad: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;vencimiento apto medico: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;estado apto medico: </span><span class="si">{</span><span class="n">data_from_db</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">archivo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_log</span><span class="o">.</span><span class="n">ejecutar_registro_log_evento</span><span class="p">(</span><span class="s2">&quot;DATABASE EXPORTADA&quot;</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+        <span class="n">archivo</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+<span class="c1">#------------------------------------------------------------------------------</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">TrabajoFinal</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../controlador.html">controlador module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data_validation_module.html">data_validation_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modelo.html">modelo module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../registro_log_module.html">registro_log_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sqlite3_module.html">sqlite3_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system_app_module.html">system_app_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Gaston.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
