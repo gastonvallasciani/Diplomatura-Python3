@@ -1,3 +1,6 @@
+"""
+vista.py
+"""
 from pickle import FALSE, TRUE
 
 from tkinter import Tk

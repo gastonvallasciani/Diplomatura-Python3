@@ -1,3 +1,8 @@
+"""
+sqlite_mod.py
+
+Modulo utilizado para interactuar con la base de datos SQLite3.
+"""
 import sqlite3
 
 class DatabaseManager():
@@ -5,6 +10,11 @@ class DatabaseManager():
         pass
          
     def crear_base(self,):
+        """
+        Se conecta con la base de datos de nobmre socios.db.
+
+        :returns: objeto de conexion
+        """
         con = sqlite3.connect("socios.db")
         return con
 
@@ -13,6 +23,9 @@ class DatabaseManager():
         con.close()
 
     def crear_tabla(self):
+        """
+        Crea la tabla de nombre "socios" en la base de datos si no existe.
+        """
         con = self.crear_base()
         cursor = con.cursor()
         sql = "CREATE TABLE socios(num_socio integer PRIMARY KEY, nombre text, apellido text, edad text, vencimiento_apto_medico text, estado_apto_medico text)"
@@ -20,6 +33,9 @@ class DatabaseManager():
         con.commit()
 
     def iniciar_base(self, ):
+        """
+        Inicia la base de datos.
+        """
         print("Iniciando base de datos")
         try:
             self.crear_base()
@@ -32,6 +48,14 @@ class DatabaseManager():
             print("Finalizo el inicio de la base de datos")
 
     def insertar(self, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+        """
+        Inserta un nuevo registro en la base de datos.
+
+        :nombre: nombre de socio a insertar en la tabla de la base de datos.
+        :apellido: apellido de socio a insertar en la tabla de la base de datos.
+        :vencimiento_apto_medico: vencimiento del apto medico a insertar en la tabla de la base de datos.
+        :estado_apto_medico: estado del apto medico a insertar en la tabla de la base de datos.
+        """
         con = self.crear_base()
         cursor = con.cursor()
         data = (str(nombre), str(apellido), str(edad), str(vencimiento_apto_medico), str(estado_apto_medico))
@@ -40,6 +64,11 @@ class DatabaseManager():
         con.commit()
 
     def borrar(self, num_socio):
+        """
+        Borra un registro de la tabla "socios" de la base de datos.
+
+        :num_socio: numero de socio a borrar.
+        """
         con = self.crear_base()
         cursor = con.cursor()
         num_socio = int(num_socio)
@@ -49,6 +78,11 @@ class DatabaseManager():
         con.commit()
 
     def seleccionar(self, num_socio):
+        """
+        Selecciona un registro de la tabla "socios" de la base de datos.
+
+        :num_socio: numero de socio a borrar.
+        """
         row = ()
         con = self.crear_base()
         cursor = con.cursor()
@@ -68,6 +102,9 @@ class DatabaseManager():
         return row
 
     def seleccionar_todos(self,):
+        """
+        selecciona todos registros de la tabla "socios" de la base de datos.
+        """
         sql = "SELECT * FROM socios ORDER BY num_socio ASC"
         con = self.crear_base()
         cursor = con.cursor()
@@ -75,6 +112,11 @@ class DatabaseManager():
         return data.fetchall()
 
     def cantidad_registros(self,):
+        """
+        Calcula y devuelve la cantidad de registros presentes en la tabla "socios" de la base de datos.
+
+        :returns: cantidad de rergistros en la base de datos si no es vacio.
+        """
         con = self.crear_base()
         cursor = con.cursor()
         #sql = "SELECT COUNT(*) FROM socios;"
@@ -88,6 +130,15 @@ class DatabaseManager():
             return 0
 
     def actualizar(self, num_socio, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
+        """
+        Actualiza un registro en la tabla "socios" de la base de datos.
+
+        :num_socio: numero de socio a modificar.
+        :nombre: nombre de socio a modificar.
+        :apellido: apellido de socio a modificar.
+        :vencimiento_apto_medico: vencimiento del apto medico a modificar.
+        :estado_apto_medico: estado del apto medico a modificar.
+        """
         con = self.crear_base()
         cursor = con.cursor()
         num_socio = int(num_socio)

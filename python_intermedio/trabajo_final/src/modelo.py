@@ -1,4 +1,6 @@
-#------------------------------------------------------------------------------
+"""
+modelo.py
+"""
 from sqlite3_module.sqlite_mod import DatabaseManager
 from data_validation_module.data_validation_mod import DataValidationManager
 from registro_log_module.registro_log_mod import RegistrarLog
