@@ -6,7 +6,13 @@ Modulo utilizado para llevar a cabo la validacion de datos.
 from pickle import FALSE
 from pickle import TRUE
 import re
-
+#------------------------------------------------------------------------------
+__author__ = "Gastón Vallasciani"
+__maintainter__ = "Gastón Vallasciani"
+__email__ = "gastonvallasciani@gmail.com"
+__copyright__ = "Copyright 2022"
+__version__ = "0.1"
+#------------------------------------------------------------------------------
 class DataValidationManager():
     def __init__(self):
         pass
@@ -57,3 +63,8 @@ class DataValidationManager():
             return FALSE
         else:
             return TRUE
+#------------------------------------------------------------------------------
+if __name__ == "__main__":
+    print("Version del modulo: ", __version__)
+    print("Autor: ", __author__)
+#------------------------------------------------------------------------------

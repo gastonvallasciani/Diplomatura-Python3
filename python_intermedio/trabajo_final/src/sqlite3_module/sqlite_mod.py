@@ -4,7 +4,13 @@ sqlite_mod.py
 Modulo utilizado para interactuar con la base de datos SQLite3.
 """
 import sqlite3
-
+#------------------------------------------------------------------------------
+__author__ = "Gastón Vallasciani"
+__maintainter__ = "Gastón Vallasciani"
+__email__ = "gastonvallasciani@gmail.com"
+__copyright__ = "Copyright 2022"
+__version__ = "0.1"
+#------------------------------------------------------------------------------
 class DatabaseManager():
     def __init__(self):
         pass
@@ -146,4 +152,8 @@ class DatabaseManager():
         sql = "UPDATE socios SET nombre=?, apellido=?, edad=?, vencimiento_apto_medico=?, estado_apto_medico=? WHERE num_socio=?;"
         cursor.execute(sql, data)
         con.commit()
-
+#------------------------------------------------------------------------------
+if __name__ == "__main__":
+    print("Version del modulo: ", __version__)
+    print("Autor: ", __author__)
+#------------------------------------------------------------------------------

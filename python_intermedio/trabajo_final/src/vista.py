@@ -17,7 +17,12 @@ from tkinter.font import BOLD
 from modelo import Abmc
 from system_app_module.system_app_mod import SystemApp
 import datetime as date
-
+#------------------------------------------------------------------------------
+__author__ = "Gastón Vallasciani"
+__maintainter__ = "Gastón Vallasciani"
+__email__ = "gastonvallasciani@gmail.com"
+__copyright__ = "Copyright 2022"
+__version__ = "0.1"
 #------------------------------------------------------------------------------
 class Panel():
     def __init__(self, window):
@@ -306,3 +311,6 @@ class Panel():
             self.abmc.objeto_log.ejecutar_registro_log_evento(f"FIN APP", date.datetime.now())
             self.root.destroy()
 #------------------------------------------------------------------------------
+if __name__ == "__main__":
+    print("Version del modulo: ", __version__)
+    print("Autor: ", __author__)
