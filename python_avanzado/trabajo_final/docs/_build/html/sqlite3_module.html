@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sqlite3_module package &mdash; documentación de TrabajoFinal - 0.0.1</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="system_app_module package" href="system_app_module.html" />
+    <link rel="prev" title="registro_log_module package" href="registro_log_module.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> TrabajoFinal
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="controlador.html">controlador module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_validation_module.html">data_validation_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modelo.html">modelo module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registro_log_module.html">registro_log_module package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sqlite3_module package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-sqlite3_module.sqlite_mod">sqlite3_module.sqlite_mod module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-sqlite3_module">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="system_app_module.html">system_app_module package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vista.html">vista module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">TrabajoFinal</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>sqlite3_module package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sqlite3_module.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sqlite3-module-package">
+<h1>sqlite3_module package<a class="headerlink" href="#sqlite3-module-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-sqlite3_module.sqlite_mod">
+<span id="sqlite3-module-sqlite-mod-module"></span><h2>sqlite3_module.sqlite_mod module<a class="headerlink" href="#module-sqlite3_module.sqlite_mod" title="Permalink to this heading"></a></h2>
+<p>sqlite_mod.py</p>
+<p>Modulo utilizado para interactuar con la base de datos SQLite3.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sqlite3_module.sqlite_mod.</span></span><span class="sig-name descname"><span class="pre">DatabaseManager</span></span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.actualizar">
+<span class="sig-name descname"><span class="pre">actualizar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_socio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apellido</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vencimiento_apto_medico</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estado_apto_medico</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.actualizar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.actualizar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Actualiza un registro en la tabla «socios» de la base de datos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Num_socio</dt>
+<dd class="field-odd"><p>numero de socio a modificar.</p>
+</dd>
+<dt class="field-even">Nombre</dt>
+<dd class="field-even"><p>nombre de socio a modificar.</p>
+</dd>
+<dt class="field-odd">Apellido</dt>
+<dd class="field-odd"><p>apellido de socio a modificar.</p>
+</dd>
+<dt class="field-even">Vencimiento_apto_medico</dt>
+<dd class="field-even"><p>vencimiento del apto medico a modificar.</p>
+</dd>
+<dt class="field-odd">Estado_apto_medico</dt>
+<dd class="field-odd"><p>estado del apto medico a modificar.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.borrar">
+<span class="sig-name descname"><span class="pre">borrar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_socio</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.borrar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.borrar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Borra un registro de la tabla «socios» de la base de datos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Num_socio</dt>
+<dd class="field-odd"><p>numero de socio a borrar.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.cantidad_registros">
+<span class="sig-name descname"><span class="pre">cantidad_registros</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.cantidad_registros"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.cantidad_registros" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Calcula y devuelve la cantidad de registros presentes en la tabla «socios» de la base de datos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>cantidad de rergistros en la base de datos si no es vacio.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.cerrar_base">
+<span class="sig-name descname"><span class="pre">cerrar_base</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.cerrar_base"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.cerrar_base" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.crear_base">
+<span class="sig-name descname"><span class="pre">crear_base</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.crear_base"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.crear_base" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Se conecta con la base de datos de nobmre socios.db.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>objeto de conexion</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.crear_tabla">
+<span class="sig-name descname"><span class="pre">crear_tabla</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.crear_tabla"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.crear_tabla" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Crea la tabla de nombre «socios» en la base de datos si no existe.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.iniciar_base">
+<span class="sig-name descname"><span class="pre">iniciar_base</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.iniciar_base"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.iniciar_base" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Inicia la base de datos.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.insertar">
+<span class="sig-name descname"><span class="pre">insertar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nombre</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apellido</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vencimiento_apto_medico</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estado_apto_medico</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.insertar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.insertar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Inserta un nuevo registro en la base de datos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Nombre</dt>
+<dd class="field-odd"><p>nombre de socio a insertar en la tabla de la base de datos.</p>
+</dd>
+<dt class="field-even">Apellido</dt>
+<dd class="field-even"><p>apellido de socio a insertar en la tabla de la base de datos.</p>
+</dd>
+<dt class="field-odd">Vencimiento_apto_medico</dt>
+<dd class="field-odd"><p>vencimiento del apto medico a insertar en la tabla de la base de datos.</p>
+</dd>
+<dt class="field-even">Estado_apto_medico</dt>
+<dd class="field-even"><p>estado del apto medico a insertar en la tabla de la base de datos.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.seleccionar">
+<span class="sig-name descname"><span class="pre">seleccionar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_socio</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.seleccionar"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.seleccionar" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Selecciona un registro de la tabla «socios» de la base de datos.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Num_socio</dt>
+<dd class="field-odd"><p>numero de socio a borrar.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sqlite3_module.sqlite_mod.DatabaseManager.seleccionar_todos">
+<span class="sig-name descname"><span class="pre">seleccionar_todos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sqlite3_module/sqlite_mod.html#DatabaseManager.seleccionar_todos"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#sqlite3_module.sqlite_mod.DatabaseManager.seleccionar_todos" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>selecciona todos registros de la tabla «socios» de la base de datos.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-sqlite3_module">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sqlite3_module" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="registro_log_module.html" class="btn btn-neutral float-left" title="registro_log_module package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="system_app_module.html" class="btn btn-neutral float-right" title="system_app_module package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Gaston.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
