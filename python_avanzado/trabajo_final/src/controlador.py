@@ -3,6 +3,7 @@ controlador.py
 """
 from tkinter import Tk 
 from vista import Panel
+import observer_pattern_module.observer
 #------------------------------------------------------------------------------
 __author__ = "Gastón Vallasciani"
 __maintainter__ = "Gastón Vallasciani"
@@ -15,6 +16,7 @@ class Controller():
         self.root = root_w
         self.objeto_vista = Panel(self.root)
         print(self.objeto_vista)
+        self.observer = observer_pattern_module.observer.ConcreteObserverA(self.objeto_vista.abmc)
     def __str__(self,):
         return("Clase Controller()")
 #------------------------------------------------------------------------------

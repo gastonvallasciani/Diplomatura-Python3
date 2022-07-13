@@ -10,9 +10,11 @@ from tkinter import messagebox
 from pickle import TRUE
 from pickle import FALSE
 
+from observer_pattern_module.observer import Subject
+
 import datetime as date
 #------------------------------------------------------------------------------
-class Abmc():
+class Abmc(Subject):
     def __init__(self):
         self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
@@ -207,6 +209,11 @@ class Abmc():
             self.actualizar_treeview(treeview)
             messagebox.showinfo(message="El socio ha sido guardado exitosamente!")
             self.objeto_log.ejecutar_registro_log_evento("ALTA SOCIO", date.datetime.now())
+            self.notificar(
+                nombre_socio_local, apellido_socio_local, 
+                edad_socio_local, vencimiento_apto_medico_local, 
+                estado_apto_medico_local
+                )
         else:
             self.objeto_log.ejecutar_registro_log_evento("ALTA SOCIO INTENTO FALLIDO", date.datetime.now())
             str_aux_2=" El socio no ha sido cargado "
