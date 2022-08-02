@@ -4,9 +4,6 @@ sqlite_mod.py
 Modulo utilizado para interactuar con la base de datos SQLite3.
 """
 import sqlite3
-from decoradores.decoradores_registros import decorador_actualizacion_de_registro
-from decoradores.decoradores_registros import decorador_eliminacion_de_registro
-from decoradores.decoradores_registros import decorador_ingreso_nuevo_registro
 #------------------------------------------------------------------------------
 __author__ = "Gastón Vallasciani"
 __maintainter__ = "Gastón Vallasciani"
@@ -59,7 +56,6 @@ class DatabaseManager():
         finally:
             print("Finalizo el inicio de la base de datos")
 
-    @decorador_ingreso_nuevo_registro
     def insertar(self, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
         """
         Inserta un nuevo registro en la base de datos.
@@ -76,7 +72,6 @@ class DatabaseManager():
         cursor.execute(sql, data)
         con.commit()
     
-    @decorador_eliminacion_de_registro
     def borrar(self, num_socio):
         """
         Borra un registro de la tabla "socios" de la base de datos.
@@ -142,7 +137,6 @@ class DatabaseManager():
             return cantidad_de_registros[0]
         else:
             return 0
-    @decorador_actualizacion_de_registro
     def actualizar(self, num_socio, nombre, apellido, edad, vencimiento_apto_medico, estado_apto_medico):
         """
         Actualiza un registro en la tabla "socios" de la base de datos.
