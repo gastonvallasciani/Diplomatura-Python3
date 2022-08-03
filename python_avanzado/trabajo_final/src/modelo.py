@@ -12,6 +12,8 @@ from pickle import FALSE
 
 from observer_pattern_module.observer import Subject
 
+from cliente_module.client_mod import SendToServer
+
 import datetime as date
 #------------------------------------------------------------------------------
 class Abmc(Subject):
@@ -19,8 +21,11 @@ class Abmc(Subject):
         self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
         self.objeto_log = RegistrarLog()
+        self.objeto_send_to_server = SendToServer()
         self.objeto_db.iniciar_base()
-        
+
+        self.objeto_send_to_server.init_remote_database()
+
         print(self.objeto_db)
         print(self.objeto_data_val)
         print(self.objeto_log)
@@ -133,6 +138,7 @@ class Abmc(Subject):
         if num_socio_a_borrar:
             self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO", date.datetime.now())
             self.objeto_db.borrar(num_socio_a_borrar)
+            self.objeto_send_to_server.baja_on_remote_database(num_socio_a_borrar)
             self.actualizar_treeview(treeview)
         else:
             self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO INTENTO FALLIDO", date.datetime.now())
@@ -202,6 +208,11 @@ class Abmc(Subject):
 
         if(guardar_cliente == TRUE):
             self.objeto_db.insertar(
+                nombre_socio_local, apellido_socio_local, 
+                edad_socio_local, vencimiento_apto_medico_local, 
+                estado_apto_medico_local
+                )
+            self.objeto_send_to_server.alta_on_remote_database(
                 nombre_socio_local, apellido_socio_local, 
                 edad_socio_local, vencimiento_apto_medico_local, 
                 estado_apto_medico_local
