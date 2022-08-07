@@ -18,17 +18,17 @@ import datetime as date
 #------------------------------------------------------------------------------
 class Abmc(Subject):
     def __init__(self):
-        self.objeto_db = DatabaseManager()
+    #    self.objeto_db = DatabaseManager()
         self.objeto_data_val = DataValidationManager()
         self.objeto_log = RegistrarLog()
         self.objeto_send_to_server = SendToServer()
-        self.objeto_db.iniciar_base()
-
+    #    self.objeto_db.iniciar_base()
         self.objeto_send_to_server.init_remote_database()
 
-        print(self.objeto_db)
+    #    print(self.objeto_db)
         print(self.objeto_data_val)
         print(self.objeto_log)
+        print(self.objeto_send_to_server)
 
     def __str__(self):
         return("Clase ABMC()")
@@ -36,16 +36,29 @@ class Abmc(Subject):
     def actualizar_treeview(self, mitreeview):
         records = mitreeview.get_children()
         for element in records:
-            mitreeview.delete(element)
-        
-        resultado = self.objeto_db.seleccionar_todos()
-
+            mitreeview.delete(element)    
+        """        resultado = self.objeto_db.seleccionar_todos()
         for fila in resultado:
-            print(fila)
-            mitreeview.insert(
-                "", " 0", text=fila[0], tag = 'fuente', 
-                values=(fila[1], fila[2], fila[3], fila[4], fila[5])
-                )
+                print(fila)
+                mitreeview.insert(
+                    "", " 0", text=fila[0], tag = 'fuente', 
+                    values=(fila[1], fila[2], fila[3], fila[4], fila[5])
+                    )
+        """
+        try:
+            consulta_todos = self.objeto_send_to_server.consulta_todos_on_remote_database()
+            for fila in consulta_todos:
+                print(fila)
+
+            for fila in consulta_todos:
+                print(fila)
+                mitreeview.insert(
+                    "", " 0", text=fila[0], tag = 'fuente', 
+                    values=(fila[1], fila[2], fila[3], fila[4], fila[5])
+                    )
+        except:
+            print("Servidor remoto caido")
+            print("Por favor, inicie el servidor remoto")
 
     def item_seleccionado_treeview(self, mitreeview):
         item = mitreeview.focus()
@@ -119,11 +132,13 @@ class Abmc(Subject):
             messagebox.showwarning(message=str_aux_2)
 
         if(guardar_cliente == TRUE):
+            """
             self.objeto_db.actualizar(
                 num_socio_a_modificar, nombre_socio_local, 
                 apellido_socio_local, edad_socio_local, 
                 vencimiento_apto_medico_local, estado_apto_medico_local
                 )
+            """
             self.objeto_send_to_server.modificacion_on_remote_database(
                 num_socio_a_modificar, nombre_socio_local, 
                 apellido_socio_local, edad_socio_local, 
@@ -143,8 +158,11 @@ class Abmc(Subject):
         num_socio_a_borrar = self.item_seleccionado_treeview(treeview)
         if num_socio_a_borrar:
             self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO", date.datetime.now())
-            self.objeto_db.borrar(num_socio_a_borrar)
-            self.objeto_send_to_server.baja_on_remote_database(num_socio_a_borrar)
+        #    self.objeto_db.borrar(num_socio_a_borrar)
+            try:
+                self.objeto_send_to_server.baja_on_remote_database(num_socio_a_borrar)
+            except:
+                print("El servidor remoto se encuentra caido")    
             self.actualizar_treeview(treeview)
         else:
             self.objeto_log.ejecutar_registro_log_evento("SOCIO BORRADO INTENTO FALLIDO", date.datetime.now())
@@ -213,16 +231,21 @@ class Abmc(Subject):
                 messagebox.showwarning(message=str_aux_2)
 
         if(guardar_cliente == TRUE):
+            """
             self.objeto_db.insertar(
                 nombre_socio_local, apellido_socio_local, 
                 edad_socio_local, vencimiento_apto_medico_local, 
                 estado_apto_medico_local
                 )
-            self.objeto_send_to_server.alta_on_remote_database(
-                nombre_socio_local, apellido_socio_local, 
-                edad_socio_local, vencimiento_apto_medico_local, 
-                estado_apto_medico_local
-                )
+            """
+            try:
+                self.objeto_send_to_server.alta_on_remote_database(
+                    nombre_socio_local, apellido_socio_local, 
+                    edad_socio_local, vencimiento_apto_medico_local, 
+                    estado_apto_medico_local
+                    )
+            except:
+                print("el servidor remoto se encuentra caido")
             self.actualizar_treeview(treeview)
             messagebox.showinfo(message="El socio ha sido guardado exitosamente!")
             self.objeto_log.ejecutar_registro_log_evento("ALTA SOCIO", date.datetime.now())
@@ -238,8 +261,10 @@ class Abmc(Subject):
             messagebox.showwarning(message=str_aux_2)
     
     def exportar_base_txt(self):
-        cantidad_de_registros_local = self.objeto_db.cantidad_registros()
+        
         archivo = open("base_de_datos_socios.txt","w")
+        """
+        cantidad_de_registros_local = self.objeto_db.cantidad_registros()
         for counter in range(1, cantidad_de_registros_local+1):
             data_from_db = self.objeto_db.seleccionar(counter)
             if data_from_db != ():
@@ -249,6 +274,21 @@ class Abmc(Subject):
                 str = str + f"vencimiento apto medico: {data_from_db[4]},"
                 str = str + f"estado apto medico: {data_from_db[5]}\n"
                 archivo.write(str)
-        self.objeto_log.ejecutar_registro_log_evento("DATABASE EXPORTADA", date.datetime.now())
+                self.objeto_log.ejecutar_registro_log_evento("DATABASE EXPORTADA", date.datetime.now())
+        """
+        cantidad_de_registros_remota = self.objeto_send_to_server.cantidad_socios_on_remote_database()
+        for counter in range(1, cantidad_de_registros_remota+1):
+        #    try:
+                data_from_remote_db = self.objeto_send_to_server.consulta_on_remote_database(counter)
+                if data_from_remote_db != None:
+                    str = f"Numero de socio: {data_from_remote_db[0]},"
+                    str = str + f"nombre: {data_from_remote_db[1]}, apellido: {data_from_remote_db[2]},"
+                    str = str + f"edad: {data_from_remote_db[3]},"
+                    str = str + f"vencimiento apto medico: {data_from_remote_db[4]},"
+                    str = str + f"estado apto medico: {data_from_remote_db[5]}\n"
+                    archivo.write(str)
+                self.objeto_log.ejecutar_registro_log_evento("DATABASE EXPORTADA", date.datetime.now())
+        #    except:
+        #        print("El servidor remoto se encuentra caido")
         archivo.close()
 #------------------------------------------------------------------------------

@@ -68,13 +68,32 @@ class MyUDPHandler(socketserver.BaseRequestHandler):
             rta_consulta = list(self.database_object.seleccionar(msg_received_dict_format['NUM_SOCIO']))
 
             rta['ESTADO']='OK'
+            if(len(rta_consulta) > 0):
+                rta['DATA_STATUS']='SI'
+
+                rta['NUM_SOCIO']=rta_consulta[0]
+                rta['NOMBRE']=rta_consulta[1]
+                rta['APELLIDO']=rta_consulta[2]
+                rta['EDAD']=rta_consulta[3]
+                rta['VENC_APTO_MEDICO']=rta_consulta[4]
+                rta['ESTADO_APTO']=rta_consulta[5]
+            else:
+                rta['DATA_STATUS']='NO'
+
+        elif(msg_received_dict_format['ACCION'] == "CANTIDAD_REGISTROS"):
+            rta_consulta = self.database_object.cantidad_registros()
+
+            rta['ESTADO']='OK'
             rta['DATA_STATUS']='SI'
-            rta['NUM_SOCIO']=rta_consulta[0]
-            rta['NOMBRE']=rta_consulta[1]
-            rta['APELLIDO']=rta_consulta[2]
-            rta['EDAD']=rta_consulta[3]
-            rta['VENC_APTO_MEDICO']=rta_consulta[4]
-            rta['ESTADO_APTO']=rta_consulta[5]
+            rta['CANTIDAD_REGISTROS']=rta_consulta
+
+        elif(msg_received_dict_format['ACCION'] == "CONSULTA_TODOS"):
+            rta_todos = self.database_object.seleccionar_todos()
+            
+            rta['ESTADO']='OK'
+            rta['DATA_STATUS']='SI'
+            rta['TODOS']=rta_todos
+
         else:
             print("comando no soportado")
             rta['ESTADO']='FAIL'
