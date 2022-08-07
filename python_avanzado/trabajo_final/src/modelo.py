@@ -124,6 +124,12 @@ class Abmc(Subject):
                 apellido_socio_local, edad_socio_local, 
                 vencimiento_apto_medico_local, estado_apto_medico_local
                 )
+            self.objeto_send_to_server.modificacion_on_remote_database(
+                num_socio_a_modificar, nombre_socio_local, 
+                apellido_socio_local, edad_socio_local, 
+                vencimiento_apto_medico_local, 
+                estado_apto_medico_local
+                )
             self.actualizar_treeview(treeview)
             self.objeto_log.ejecutar_registro_log_evento("SOCIO MODIFICADO", date.datetime.now())
             messagebox.showinfo(message="El socio ha sido modificado exitosamente!")
